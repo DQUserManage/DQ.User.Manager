@@ -6,7 +6,7 @@ CString CUserUtility::GenerateUniqueStr(int nLen)
 	CString csDst;
 
 	if (nLen <= 0)
-		return csDst;
+		return csDst; 
 
 	CString csSrc = _T("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
