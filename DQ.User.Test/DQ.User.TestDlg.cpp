@@ -123,6 +123,7 @@ void CDQUserTestDlg::OnSysCommand(UINT nID, LPARAM lParam)
 }
 
 void CDQUserTestDlg::OnPaint()
+
 {
 	if (IsIconic())
 	{
