@@ -263,6 +263,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Utility\UserManagerRes.cpp" />
+    <ClCompile Include="Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DQ.User.Manager.def" />
@@ -281,6 +282,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UserManagerDefine.h" />
     <ClInclude Include="Utility\UserManagerRes.h" />
+    <ClInclude Include="Utility\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DQ.User.Manager.rc" />
