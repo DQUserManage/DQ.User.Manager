@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\Mediator">
+      <UniqueIdentifier>{17eece23-9329-470c-a691-7afc32cb6424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Mediator">
+      <UniqueIdentifier>{5acec4b5-f323-4151-b06f-95c789642226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\WrapperClass">
+      <UniqueIdentifier>{db7d0ace-dce3-417c-a89f-b71d7e28815b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\WrapperClass">
+      <UniqueIdentifier>{f43acb7a-f1b2-4dff-bca6-723633953f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\NPOI">
+      <UniqueIdentifier>{e286522e-80b2-45e8-b121-01d55da5cac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\NPOI">
+      <UniqueIdentifier>{94611edf-728d-4575-a569-5844e76cdd0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\NPOI\WrapperClass">
+      <UniqueIdentifier>{6c453021-f97a-41ce-aa77-9f4f4a9aca5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\NPOI\WrapperClass">
+      <UniqueIdentifier>{4ffeef0a-30fe-41b7-a341-bb8ea6563c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\NPOI\Mediator">
+      <UniqueIdentifier>{4ce51775-b51d-42d4-82c8-3d5881f53d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\NPOI\Mediator">
+      <UniqueIdentifier>{94194298-fdbc-4c73-9a65-ca33ec6c2b43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="QH.IC.DBMediator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTableMediator.cpp">
+      <Filter>源文件\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="ParameterListMediator.cpp">
+      <Filter>源文件\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="ParameterList.cpp">
+      <Filter>源文件\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DbUtilityMediator.cpp">
+      <Filter>源文件\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSet.cpp">
+      <Filter>源文件\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSetMediator.cpp">
+      <Filter>源文件\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseWorkBook.cpp">
+      <Filter>源文件\NPOI\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ICellStyle.cpp">
+      <Filter>源文件\NPOI\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="IRow.cpp">
+      <Filter>源文件\NPOI\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ISheet.cpp">
+      <Filter>源文件\NPOI\WrapperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ISheetMediator.cpp">
+      <Filter>源文件\NPOI\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="ICellStyleMediator.cpp">
+      <Filter>源文件\NPOI\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="IRowMediator.cpp">
+      <Filter>源文件\NPOI\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkBookMediator.cpp">
+      <Filter>源文件\NPOI\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckADUser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DataReaderMediator.cpp">
+      <Filter>源文件\Mediator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DQ.OD.DBMediator.def">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="res\DQ.OD.DBMediator.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DBStructPublic.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTableMediator.h">
+      <Filter>头文件\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="ParameterListMediator.h">
+      <Filter>头文件\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="ParameterList.h">
+      <Filter>头文件\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DbUtilityMediator.h">
+      <Filter>头文件\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSet.h">
+      <Filter>头文件\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSetMediator.h">
+      <Filter>头文件\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseWorkBook.h">
+      <Filter>头文件\NPOI\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ICellStyle.h">
+      <Filter>头文件\NPOI\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IRow.h">
+      <Filter>头文件\NPOI\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ISheet.h">
+      <Filter>头文件\NPOI\WrapperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ICellStyleMediator.h">
+      <Filter>头文件\NPOI\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="IRowMediator.h">
+      <Filter>头文件\NPOI\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="ISheetMediator.h">
+      <Filter>头文件\NPOI\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkBookMediator.h">
+      <Filter>头文件\NPOI\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="CSharpNameSpace.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckADUser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DataReaderMediator.h">
+      <Filter>头文件\Mediator</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DQ.OD.DBMediator.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

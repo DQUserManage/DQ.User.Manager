@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{d50ee115-4fb8-475d-8ec2-e8b0c2fa11c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataAccess">
+      <UniqueIdentifier>{cb371c90-3ac5-47d1-b971-e8bc60832628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{60787f1f-9bc1-4cd7-8fa7-bcdbb378ec75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Layout">
+      <UniqueIdentifier>{01682cc5-3b7b-47e6-97fd-60feb995528b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialog">
+      <UniqueIdentifier>{c447ab5c-a225-4c72-8fa2-7c73f205d256}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\UserManagerRes.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="DataAccess\UserManagerDataAccess.cpp">
+      <Filter>DataAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\UserManager.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout\ETSLayout.cpp">
+      <Filter>Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout\UserDialogBase.cpp">
+      <Filter>Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog\DlgUserOrg.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DQ.User.Manager.def">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="res\DQUserManager.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManagerDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\UserManagerRes.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DataAccess\UserManagerDataAccess.h">
+      <Filter>DataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="DBMediatorInc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\UserManager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="DQUserManagerInc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout\ETSLayout.h">
+      <Filter>Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout\UserDialogBase.h">
+      <Filter>Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog\DlgUserOrg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DQ.User.Manager.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

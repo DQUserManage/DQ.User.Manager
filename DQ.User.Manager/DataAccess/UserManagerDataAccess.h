@@ -1,0 +1,37 @@
+#pragma once
+
+//////////////////////////////////////////////////////////////////////////////////                                                                            ///  @file     UserManagerDataAccess.h                                                       ///  @brief    用户管理模块数据访问接口（所有对数据的访问都应写在此文件中）                                                                             ///  @author   lqt                                                                                                        ///  @version  1.0.0                                                ///  @date     2018.06.28                                                                                ///                                                                          ///////////////////////////////////////////////////////////////////////////////
+
+class CDbUtilityMediator;
+
+/**   数据访问接口（单例模式）*/class EXPORT_USER_MANAGER CUserManagerDataService
+{
+public:
+	~CUserManagerDataService(void);
+public:
+	static CUserManagerDataService*		GetInstance(void);
+	static void					        DestoryInstance(void);
+private:
+	CUserManagerDataService();
+	CUserManagerDataService(const CUserManagerDataService& rhs) { operator=(rhs); }
+	CUserManagerDataService& operator=(const CUserManagerDataService&) { return *this; }
+private:
+	static CUserManagerDataService*		m_pSingleton;  ///<数据访问实例
+
+public:
+	/** 初始化数据访问接口
+	@param csConn 数据库连接串
+	@param nType  数据库类型
+	*/
+	bool DBInit(const CString& csConn, int nType);
+
+	/**  释放数据库访问中介者 */
+	void FreeDB();
+
+public:
+	/** 数据访问简单测试*/
+	bool DoTest();
+
+private:
+	CDbUtilityMediator*  m_pDB;  ///<数据访问中介者
+};

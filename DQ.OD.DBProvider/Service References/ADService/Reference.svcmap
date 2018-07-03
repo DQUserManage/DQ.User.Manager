@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c8596cf9-ff4b-4898-9955-3ea87f77ed79" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:41366/ADService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ADService.disco" MetadataType="Disco" ID="aabb419e-f0fc-4a7c-9f01-9f8709d26cb1" SourceId="1" SourceUrl="http://localhost:41366/ADService.svc?disco" />
+    <MetadataFile FileName="ADService.xsd" MetadataType="Schema" ID="277a0de9-9ed0-4e3f-9119-7b5c6c82fd07" SourceId="1" SourceUrl="http://localhost:41366/ADService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ADService.wsdl" MetadataType="Wsdl" ID="92d47138-a86a-41b7-833c-d181ffe43f1a" SourceId="1" SourceUrl="http://localhost:41366/ADService.svc?wsdl" />
+    <MetadataFile FileName="ADService1.xsd" MetadataType="Schema" ID="92910261-d289-495d-8c29-112c23ac7c0f" SourceId="1" SourceUrl="http://localhost:41366/ADService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
