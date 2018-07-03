@@ -57,6 +57,9 @@
     <ClCompile Include="Dialog\DlgUserOrg.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Utility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DQ.User.Manager.def">
@@ -102,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="Dialog\DlgUserOrg.h">
       <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Utility.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
