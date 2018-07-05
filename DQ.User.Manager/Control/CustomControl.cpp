@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "CustomEdit.h"
+#include "CustomControl.h"
 
 void CDeptBrowserEdit::OnBrowse()
 {

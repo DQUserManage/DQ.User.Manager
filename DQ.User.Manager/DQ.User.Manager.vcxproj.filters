@@ -72,7 +72,7 @@
     <ClCompile Include="Dialog\DlgSysResEdit.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="Control\CustomEdit.cpp">
+    <ClCompile Include="Control\CustomControl.cpp">
       <Filter>Control</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,7 +133,7 @@
     <ClInclude Include="Dialog\DlgSysResEdit.h">
       <Filter>Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="Control\CustomEdit.h">
+    <ClInclude Include="Control\CustomControl.h">
       <Filter>Control</Filter>
     </ClInclude>
   </ItemGroup>

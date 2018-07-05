@@ -237,7 +237,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Control\CustomEdit.cpp" />
+    <ClCompile Include="Control\CustomControl.cpp" />
     <ClCompile Include="DataAccess\SysRes.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
     <ClCompile Include="Dialog\DlgSysRes.cpp" />
@@ -274,7 +274,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <None Include="res\DQUserManager.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Control\CustomEdit.h" />
+    <ClInclude Include="Control\CustomControl.h" />
     <ClInclude Include="DataAccess\SysRes.h" />
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />

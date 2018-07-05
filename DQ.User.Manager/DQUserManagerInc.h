@@ -9,7 +9,7 @@
 #include "Utility/UserManagerRes.h"
 #include "Utility/Utility.h"
 
-#include "Control/CustomEdit.h"
+#include "Control/CustomControl.h"
 
 #pragma message("Automatically linking with DQ.User.Manager.lib")
 
