@@ -1,5 +1,8 @@
 #pragma once
 
+#include"../COrgInfo.h"
+#include"../CUserInfo.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 ///                                                                            
 ///  @file     UserManagerDataAccess.h                                                       
@@ -11,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 class CDbUtilityMediator;
+class CDataTableMediator;
 
 #include <vector>
 using namespace std;
@@ -46,6 +50,32 @@ public:
 	/** 数据访问简单测试*/
 	bool DoTest();
 
+public:
+	/** 查询部门信息 */
+	CDataTableMediator* GetOrgInfo();
+	/** 通过部门名称查询部门信息 */
+	CDataTableMediator* GetOrgInfoUseOrgName(CString OrgName);
+	/** 添加部门信息 */
+	BOOL InsertOrgInfo(COrgInfo OrgInfo);
+	/** 删除部门信息 */
+	BOOL DeleteOrgInfo(CString OrgID);
+	/** 删除部门子节点 */
+	void DeleteChildOrgInfo(CString ParentID);
+	/** 更新部门信息 */
+	BOOL UpdateOrgInfo(COrgInfo OrgInfo);
+
+public:
+	/** 获取用户信息 */
+	CDataTableMediator* GetBranchUser(CString ItemTxt);
+	/** 添加用户信息 */
+	BOOL InsertUserInfo(CUserInfo UserInfo);
+	/** 删除用户 */
+	BOOL DeleteUserInfo(CString UserID);
+	/** 获取用户信息通过用户ID */
+	CDataTableMediator* GetUserInfoUserUserID(CString UserID);
+	/** 更新用户信息 */
+	BOOL UpdateUserInfo(CUserInfo UserInfo);
+	
 public:  ///<系统资源数据访问
 
 	/**获取系统资源基本信息 */

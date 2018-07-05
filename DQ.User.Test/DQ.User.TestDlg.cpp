@@ -104,7 +104,7 @@ BOOL CDQUserTestDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);	
 
 	//
-	CString csConn = _T("(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521))(CONNECT_DATA=(SID= ORCL)));User Id=perf;Password=perf");
+	CString csConn = _T("(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521))(CONNECT_DATA=(SID= ORCL)));User Id=rpas;Password=rpas");
 	CUserManagerDataService::GetInstance()->DBInit(csConn, (int)DB_Oracle);
 
 	return TRUE; 
