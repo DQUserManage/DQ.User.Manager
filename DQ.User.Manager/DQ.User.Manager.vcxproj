@@ -242,6 +242,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClCompile Include="Control\CustomControl.cpp" />
     <ClCompile Include="DataAccess\SysRes.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
+    <ClCompile Include="Dialog\DlgDeptTree.cpp" />
     <ClCompile Include="Dialog\DlgSysRes.cpp" />
     <ClCompile Include="Dialog\DlgSysResEdit.cpp" />
     <ClCompile Include="Dialog\DlgUserOrg.cpp" />
@@ -278,12 +279,13 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <None Include="res\DQUserManager.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Control\CustomControl.h" />
     <ClInclude Include="COrgInfo.h" />
     <ClInclude Include="CUserInfo.h" />
-    <ClInclude Include="Control\CustomControl.h" />
     <ClInclude Include="DataAccess\SysRes.h" />
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />
+    <ClInclude Include="Dialog\DlgDeptTree.h" />
     <ClInclude Include="Dialog\DlgSysRes.h" />
     <ClInclude Include="Dialog\DlgSysResEdit.h" />
     <ClInclude Include="Dialog\DlgUserOrg.h" />

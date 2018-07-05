@@ -11,6 +11,7 @@ CSysRes::CSysRes()
 	m_csAuthor.Empty();
 	m_csVersion.Empty();
 	m_csOrgID.Empty();
+	m_csOrgName.Empty();
 }
 
 CSysRes::~CSysRes()
@@ -36,6 +37,7 @@ CSysRes& CSysRes::operator=(const CSysRes& rhs)
 		m_csVersion = rhs.m_csVersion;
 		m_dtDevelop = rhs.m_dtDevelop;
 		m_csOrgID = rhs.m_csOrgID;
+		m_csOrgName = rhs.m_csOrgName;
 	}
 	return *this;
 }

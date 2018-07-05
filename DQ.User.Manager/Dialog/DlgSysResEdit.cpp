@@ -26,6 +26,7 @@ void CDlgSysResEdit::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDT_FILENAME, m_SysRes.m_csFileName);
 	DDX_Text(pDX, IDC_EDT_AUTHOR, m_SysRes.m_csAuthor);
 	DDX_Text(pDX, IDC_EDT_VERSION, m_SysRes.m_csVersion);
+	DDX_Text(pDX, IDC_EDT_ORG, m_SysRes.m_csOrgName);
 	DDX_Control(pDX, IDC_BTN_DATE, m_btnDate);
 	DDX_Control(pDX, IDC_EDT_ORG, m_edtOrg);
 }
@@ -74,7 +75,10 @@ void CDlgSysResEdit::InitControl()
 	m_edtOrg.EnableBrowseButton();
 
 	if (m_bEdit)
+	{
 		m_btnDate.SetDate(m_SysRes.m_dtDevelop);
+		m_edtOrg.m_csDeptID = m_SysRes.m_csOrgID;
+	}
 }
 
 void CDlgSysResEdit::OnBnClickedOk()

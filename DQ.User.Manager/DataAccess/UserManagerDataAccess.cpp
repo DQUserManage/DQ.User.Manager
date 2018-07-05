@@ -54,30 +54,6 @@ bool CUserManagerDataService::DBInit(const CString& csConn, int nType)
 }
 
 //--------------------------------------
-bool CUserManagerDataService::DoTest()
-{
-	ASSERT(m_pDB!=NULL);
-
-	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(_T("SELECT * FROM PC_BASIC_WELL_INFO")));
-	if (!pTab)
-		return false;
-
-	int nRows = pTab->GetRowCount();
-	int nCols = pTab->GetColCount();
-
-	for (int i = 0;i < nRows;i++)
-	{
-		for (int j = 0;j < nCols;j++)
-		{
-			CString csVal  = pTab->GetStringField(i, pTab->GetsFieldName(j));
-
-			int temp = 0;
-		}
-	}
-	return true;
-}
-
-
 CDataTableMediator* CUserManagerDataService::GetOrgInfo()
 {
 	ASSERT(m_pDB != NULL);
@@ -272,6 +248,38 @@ BOOL CUserManagerDataService::UpdateUserInfo(CUserInfo UserInfo)
 	return TRUE;
 }
 
+BOOL CUserManagerDataService::GetDeptNode(const CString& csParent, vector<COrgInfo>& vDept)
+{
+	vDept.clear();
+	//
+	CString csSQL;
+
+	if (csParent.IsEmpty())
+		csSQL.Format(_T("SELECT * from SYS_ORGNIZATION where nvl(PARENT_ID,' ')=' ' order by org_name"));
+	else
+		csSQL.Format(_T("SELECT * from SYS_ORGNIZATION where trim(PARENT_ID)='%s' order by org_name"),csParent);
+
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(csSQL));
+	if (!pTab)
+		return false;
+
+	int iCount = pTab->GetRowCount();
+	for (int i = 0;i < iCount;i++)
+	{
+		COrgInfo OrgInfo;
+		OrgInfo.SetDescription(pTab->GetStringField(i, L"DESCRIPTION"));
+		OrgInfo.SetLeader(pTab->GetStringField(i, L"LEADER"));
+		OrgInfo.SetLevel(pTab->GetStringField(i, L"ORG_LEVEL"));
+		OrgInfo.SetOrgID(pTab->GetStringField(i, L"ORG_ID"));
+		OrgInfo.SetOrgName(pTab->GetStringField(i, L"ORG_NAME"));
+		OrgInfo.SetParentID(pTab->GetStringField(i, L"PARENT_ID"));
+		OrgInfo.SetShortName(pTab->GetStringField(i, L"SHORT_NAME"));
+
+		vDept.push_back(OrgInfo);
+	}
+	return true;
+}
+
 //---------------------------------------------
 bool CUserManagerDataService::GetSysRes(std::vector<CSysRes>& vRes)
 {
@@ -388,7 +396,8 @@ bool CUserManagerDataService::UploadSysRes(const CSysRes& res, const CString& cs
 bool CUserManagerDataService::GetSysResBasic(CSysRes& res)
 {
 	CString csSQL;
-	csSQL.Format(_T("SELECT res_id,res_name,res_class,content_type,filename,author,version,develop_date from SYS_RESOURCE where res_id = '%s'"), res.m_csResID);
+	csSQL.Format(_T("SELECT res_id,res_name,res_class,content_type,filename,author,version,develop_date,\
+		(select org_name from SYS_ORGNIZATION where org_id = a.org_id) org_name ,a.org_id from SYS_RESOURCE a where res_id = '%s'"), res.m_csResID);
 
 	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(csSQL));
 	if (!pTab)
@@ -406,6 +415,8 @@ bool CUserManagerDataService::GetSysResBasic(CSysRes& res)
 		res.m_csAuthor = pTab->GetStringField(i, _T("author"));
 		res.m_csVersion = pTab->GetStringField(i, _T("version"));
 		res.m_dtDevelop = pTab->GetDateField(i, _T("develop_date"));
+		res.m_csOrgName = pTab->GetStringField(i, _T("org_name"));
+		res.m_csOrgID = pTab->GetStringField(i, _T("org_id"));
 		return true;
 	}
 

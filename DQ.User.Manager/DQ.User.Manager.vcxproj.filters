@@ -90,6 +90,9 @@
     <ClCompile Include="Control\CustomControl.cpp">
       <Filter>Control</Filter>
     </ClCompile>
+    <ClCompile Include="Dialog\DlgDeptTree.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DQ.User.Manager.def">
@@ -158,6 +161,9 @@
       <Filter>Dialog</Filter>
     </ClInclude>
     <ClInclude Include="Dialog\DlgSysResEdit.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog\DlgDeptTree.h">
       <Filter>Dialog</Filter>
     </ClInclude>
     <ClInclude Include="Control\CustomControl.h">

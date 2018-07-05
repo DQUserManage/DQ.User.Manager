@@ -47,10 +47,6 @@ public:
 	void FreeDB();
 
 public:
-	/** 数据访问简单测试*/
-	bool DoTest();
-
-public:
 	/** 查询部门信息 */
 	CDataTableMediator* GetOrgInfo();
 	/** 通过部门名称查询部门信息 */
@@ -63,7 +59,8 @@ public:
 	void DeleteChildOrgInfo(CString ParentID);
 	/** 更新部门信息 */
 	BOOL UpdateOrgInfo(COrgInfo OrgInfo);
-
+	/** 获取根部门信息 */
+	BOOL GetDeptNode(const CString& csParent,vector<COrgInfo>& vDept);
 public:
 	/** 获取用户信息 */
 	CDataTableMediator* GetBranchUser(CString ItemTxt);
