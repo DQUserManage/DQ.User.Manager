@@ -2,6 +2,7 @@
 
 #include"../COrgInfo.h"
 #include"../CUserInfo.h"
+#include <memory>
 
 ///////////////////////////////////////////////////////////////////////////////
 ///                                                                            
@@ -52,9 +53,9 @@ public:
 
 public:
 	/** 查询部门信息 */
-	CDataTableMediator* GetOrgInfo();
+	std::shared_ptr<CDataTableMediator> GetOrgInfo();
 	/** 通过部门名称查询部门信息 */
-	CDataTableMediator* GetOrgInfoUseOrgName(CString OrgName);
+	std::shared_ptr<CDataTableMediator> GetOrgInfoUseOrgName(CString OrgName);
 	/** 添加部门信息 */
 	BOOL InsertOrgInfo(COrgInfo OrgInfo);
 	/** 删除部门信息 */
@@ -66,13 +67,13 @@ public:
 
 public:
 	/** 获取用户信息 */
-	CDataTableMediator* GetBranchUser(CString ItemTxt);
+	std::shared_ptr<CDataTableMediator> GetBranchUser(CString ItemTxt);
 	/** 添加用户信息 */
 	BOOL InsertUserInfo(CUserInfo UserInfo);
 	/** 删除用户 */
 	BOOL DeleteUserInfo(CString UserID);
 	/** 获取用户信息通过用户ID */
-	CDataTableMediator* GetUserInfoUserUserID(CString UserID);
+	std::shared_ptr<CDataTableMediator> GetUserInfoUserUserID(CString UserID);
 	/** 更新用户信息 */
 	BOOL UpdateUserInfo(CUserInfo UserInfo);
 	

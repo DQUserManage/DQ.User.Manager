@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "Dlg_AddOrg.h"
 #include "Dlg_AddUser.h"
+#include "../Utility/Utility.h"
 
 #include <iostream>  
 #include <vector>  
@@ -73,7 +74,7 @@ BOOL CDlgUserOrg::OnInitDialog()
 
 	m_pGridCtrl->AdjustLayout();
 
-	CDataTableMediator* pTable = CUserManagerDataService::GetInstance()->GetOrgInfo();
+	std::shared_ptr<CDataTableMediator> pTable = CUserManagerDataService::GetInstance()->GetOrgInfo();
 
 	//部门填充树控件
 	FillBranchTree(pTable, L"", TVI_ROOT);
@@ -85,7 +86,7 @@ BOOL CDlgUserOrg::OnInitDialog()
 }
 
 
-void CDlgUserOrg::FillBranchTree(CDataTableMediator *pTable, CString sParentID, HTREEITEM hRoot)
+void CDlgUserOrg::FillBranchTree(std::shared_ptr<CDataTableMediator> pTable, CString sParentID, HTREEITEM hRoot)
 {
 	vector<CUserInfo> VecUserInfo;
 	COrgInfo OrgInfo;
@@ -106,7 +107,7 @@ void CDlgUserOrg::FillBranchTree(CDataTableMediator *pTable, CString sParentID, 
 	{
 		OrgInfo.SetDescription(pTempTable->GetStringField(i, L"DESCRIPTION"));
 		OrgInfo.SetLeader(pTempTable->GetStringField(i, L"LEADER"));
-		OrgInfo.SetLevel(pTempTable->GetStringField(i, L"LEVEL"));
+		OrgInfo.SetLevel(pTempTable->GetStringField(i, L"ORG_LEVEL"));
 		OrgInfo.SetOrgID(pTempTable->GetStringField(i, L"ORG_ID"));
 		OrgInfo.SetOrgName(pTempTable->GetStringField(i, L"ORG_NAME"));
 		OrgInfo.SetParentID(pTempTable->GetStringField(i, L"PARENT_ID"));
@@ -133,7 +134,7 @@ void CDlgUserOrg::ShowBranchUser()
 	HTREEITEM SelectItem = m_tOrgTree.HitTest(point, &uFlag);
 	CString ItemText = m_tOrgTree.GetItemText(SelectItem);
 	//根据选中的节点 获取部门对应的用户
-	CDataTableMediator* pTab = CUserManagerDataService::GetInstance()->GetBranchUser(ItemText);
+	std::shared_ptr<CDataTableMediator> pTab = CUserManagerDataService::GetInstance()->GetBranchUser(ItemText);
 	if (pTab)
 	{
 		int RowCount = pTab->GetRowCount();
@@ -188,16 +189,17 @@ void CDlgUserOrg::OnNMRClickTreeUserOrg(NMHDR *pNMHDR, LRESULT *pResult)
 	GetCursorPos(&pt);
 	m_tOrgTree.ScreenToClient(&pt);   //将鼠标的屏幕坐标，转换成树形控件的客户区坐标  
 	UINT uFlags = 0;
-	HTREEITEM hItem = m_tOrgTree.HitTest(pt, &uFlags); //然后做点击测试  
-	if ((hItem != NULL) && (TVHT_ONITEM & uFlags))     //如果点击的位置是在节点位置上面  
-	{
-		m_tOrgTree.SelectItem(hItem);
-		//根据不同类型的节点弹出菜单  
-		CMenu *psubmenu;
-		m_tOrgTree.ClientToScreen(&pt);
-		psubmenu = menu.GetSubMenu(0);
-		psubmenu->TrackPopupMenu(TPM_RIGHTBUTTON, pt.x, pt.y, this);
-	}
+	m_hItem = m_tOrgTree.HitTest(pt, &uFlags); //然后做点击测试  
+	if ((m_hItem != NULL) && (TVHT_ONITEM & uFlags))     //如果点击的位置是在节点位置上面  
+		m_tOrgTree.SelectItem(m_hItem);
+	else
+		m_tOrgTree.SelectItem(NULL);
+
+	//根据不同类型的节点弹出菜单  
+	CMenu *psubmenu;
+	m_tOrgTree.ClientToScreen(&pt);
+	psubmenu = menu.GetSubMenu(0);
+	psubmenu->TrackPopupMenu(TPM_RIGHTBUTTON, pt.x, pt.y, this);
 
 	*pResult = 0;
 }
@@ -210,8 +212,14 @@ void CDlgUserOrg::OnAddOrg()
 	if (dlg.DoModal() == IDOK)
 	{
 		COrgInfo OrgInfo = dlg.GetOrgInfo();
-		HTREEITEM hItem = m_tOrgTree.GetSelectedItem();
-		CString TreeNodeName = m_tOrgTree.GetItemText(hItem);
+		CString TreeNodeName;
+		if (m_hItem == NULL)
+		{
+			TreeNodeName = L"";
+			m_hItem = TVI_ROOT;
+		}
+		else
+			TreeNodeName = m_tOrgTree.GetItemText(m_hItem);
 
 		//通过节点名称遍历vector
 		vector<COrgInfo>::iterator it = m_VecOrgInfo.begin();
@@ -229,12 +237,12 @@ void CDlgUserOrg::OnAddOrg()
 		OrgInfo.SetParentID(TempOrgID);
 
 		//将添加的部门 更新至数据库
-		//TODO:更新数据库时 部门ID
-		OrgInfo.SetOrgID(L"BPpPmn2xDX");
+		CString OrgID = CUserUtility::GenerateUniqueStr(10);
+		OrgInfo.SetOrgID(OrgID);
 		BOOL Result = CUserManagerDataService::GetInstance()->InsertOrgInfo(OrgInfo);
 		if (Result)
 		{
-			m_tOrgTree.InsertItem(OrgInfo.GetOrgName(), hItem, TVI_LAST);
+			m_tOrgTree.InsertItem(OrgInfo.GetOrgName(), m_hItem);
 			m_VecOrgInfo.push_back(OrgInfo);
 		}
 		else
@@ -288,7 +296,6 @@ void CDlgUserOrg::OnUpdateOrgName()
 		{
 			COrgInfo OrgInfo = dlg.GetOrgInfo();
 
-			//TODO:
 			//更新数据库数据
 			BOOL Result = CUserManagerDataService::GetInstance()->UpdateOrgInfo(OrgInfo);
 			if (Result)
@@ -311,18 +318,18 @@ void CDlgUserOrg::OnBnClickedBtnAddUser()
 {
 	CDlg_AddUser dlg;
 	CString TreeNodeName = m_tOrgTree.GetItemText(m_tOrgTree.GetSelectedItem());
-	CDataTableMediator* pTab = CUserManagerDataService::GetInstance()->GetOrgInfoUseOrgName(TreeNodeName);
+	std::shared_ptr<CDataTableMediator> pTab = CUserManagerDataService::GetInstance()->GetOrgInfoUseOrgName(TreeNodeName);
 
 	dlg.SetOperatorType(0);
 	dlg.SetOrgName(TreeNodeName);
+
+	CString UserID = CUserUtility::GenerateUniqueStr(10);
+	dlg.SetUserID(UserID);
 	if(pTab)
 		dlg.SetOrgID(pTab->GetStringField(0, L"ORG_ID"));
 	if (dlg.DoModal() == IDOK)
 	{
 		CUserInfo UserInfo = dlg.GetUserInfo();
-
-		//TODO:测试用
-		UserInfo.SetUserID(UserInfo.GetUserNames());
 
 		///添加用户信息
 		BOOL Result = CUserManagerDataService::GetInstance()->InsertUserInfo(UserInfo);
@@ -397,7 +404,7 @@ void CDlgUserOrg::OnBnClickedBtnUpdateUser()
 		}
 	}
 
-	CDataTableMediator* pTab = CUserManagerDataService::GetInstance()->GetUserInfoUserUserID(UserID);
+	std::shared_ptr<CDataTableMediator> pTab = CUserManagerDataService::GetInstance()->GetUserInfoUserUserID(UserID);
 	if (pTab)
 	{
 		UserInfo.SetUserID(pTab->GetStringField(0, L"USER_ID"));
@@ -420,6 +427,8 @@ void CDlgUserOrg::OnBnClickedBtnUpdateUser()
 	dlg.SetOrgName(TreeNodeName);
 	dlg.SetUserInfo(UserInfo);
 	dlg.SetOrgID(UserInfo.GetOrgID());
+	UserID = UserInfo.GetUserID();
+	dlg.SetUserID(UserID);
 
 	if (dlg.DoModal() == IDOK)
 	{
