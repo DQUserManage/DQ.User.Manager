@@ -105,16 +105,17 @@ public:
 			break;
 		case VT_ARRAY|VT_UI1://是数组
 			{
-				BYTE ** ppBuf=NULL;
-				unsigned long * pcBufLen=0;
-				*pcBufLen = Value.parray->rgsabound[0].cElements;
-				cli::array< byte >^ byteArray = gcnew cli::array< byte >(*pcBufLen);
+			     ///< modified by lqt 2018.07.0.5
+
+				//BYTE ** ppBuf=NULL;
+				unsigned long pcBufLen= Value.parray->rgsabound[0].cElements;
+				cli::array< byte >^ byteArray = gcnew cli::array< byte >(pcBufLen);
 				pin_ptr<byte> p = &byteArray[0];//非托管内存 
-				if(*ppBuf != NULL)
+				//if(*ppBuf != NULL)
 				{
 					void * pArrayData;
 					SafeArrayAccessData(Value.parray,&pArrayData);//Obtain safe pointer to the array			
-					memcpy(p, pArrayData,*pcBufLen * sizeof(byte)); 
+					memcpy(p, pArrayData,pcBufLen * sizeof(byte)); 
 					SafeArrayUnaccessData(Value.parray);//Unlock the variant data
 					obj=byteArray;
 				}			

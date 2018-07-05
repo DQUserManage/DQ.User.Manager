@@ -69,6 +69,9 @@ public:  ///<系统资源数据访问
 	/** 获取系统资源信息*/
 	bool GetSysResBasic(CSysRes& res);
 
+	/** 获取上传内容 */
+	bool GetUploadSysRes(const CString& csResID, BYTE*& pBuf, int& nSize);
+
 private:
 	CDbUtilityMediator*  m_pDB;  ///<数据访问中介者
 };

@@ -174,20 +174,36 @@ bool CUserManagerDataService::UploadSysRes(const CSysRes& res, const CString& cs
 	if (res.m_csResID.IsEmpty())
 		return false;
 
+	COleVariant out;
+	if (!CUserUtility::PutFileIntoVariant(&out, csFileName))
+		return false;
+
 	CString csSQL;
-	csSQL.Format(_T("SELECT content from SYS_RESOURCE where res_id = '%s'"),res.m_csResID);
+	csSQL.Format(_T("Update SYS_RESOURCE set content = :blob_content where res_id = '%s'"), res.m_csResID);
+
+	CParameterListMediator*  pList = m_pDB->CreateParameterList();
+	pList->AddParameter(_T("blob_content"), out);
+
+	return m_pDB->ExecuteQuery(csSQL, pList) > 0;
+
+}
+
+bool CUserManagerDataService::GetUploadSysRes(const CString& csResID, BYTE*& pBuf, int& nSize)
+{
+	CString csSQL;
+	csSQL.Format(_T("SELECT content from SYS_RESOURCE where res_id = '%s'"), csResID);
 
 	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(csSQL));
 	if (!pTab)
 		return false;
 
-	COleVariant out;
-	if (!CUserUtility::PutFileIntoVariant(&out, csFileName))
+	int iCount = pTab->GetRowCount();
+	if (iCount != 1)
 		return false;
 
-	pTab->SetFieldValue(0, 0, out);
+	pBuf = pTab->GetBlobField(0, 0, nSize);
 
-	return true;
+	return pBuf != nullptr;
 }
 
 bool CUserManagerDataService::GetSysResBasic(CSysRes& res)

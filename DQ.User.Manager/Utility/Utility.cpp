@@ -76,7 +76,7 @@ BOOL CUserUtility::PutFileIntoVariant(COleVariant *ovData, const CString& csFile
 		file.Open(csFileName, CFile::modeRead);
 
 		long nBufLen = file.GetLength();
-		BYTE *pBuf = (BYTE*)malloc(file.GetLength());
+		pBuf = (BYTE*)malloc(file.GetLength());
 		file.SeekToBegin();
 		file.Read(pBuf, nBufLen);
 
