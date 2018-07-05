@@ -13,7 +13,7 @@
 /**
 	用户管理资源锁（用于应用程序和dll之间资源切换）
 */
-class CUserManagerResLock
+class EXPORT_USER_MANAGER CUserManagerResLock
 {
 public:
 	/** 资源切换

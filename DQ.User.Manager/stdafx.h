@@ -40,8 +40,8 @@
 #include "DBMediatorInc.h"
 
 #define BUILD_USER_MANAGER
-#include "UserManagerDefine.h"
-
 #include "DQUserManagerInc.h"
 
 extern HINSTANCE gInst;
+
+#include "Layout/UserDialogBase.h"

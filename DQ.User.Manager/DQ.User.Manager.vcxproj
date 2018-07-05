@@ -237,7 +237,11 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Control\CustomEdit.cpp" />
+    <ClCompile Include="DataAccess\SysRes.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
+    <ClCompile Include="Dialog\DlgSysRes.cpp" />
+    <ClCompile Include="Dialog\DlgSysResEdit.cpp" />
     <ClCompile Include="Dialog\DlgUserOrg.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -270,8 +274,12 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <None Include="res\DQUserManager.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Control\CustomEdit.h" />
+    <ClInclude Include="DataAccess\SysRes.h" />
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />
+    <ClInclude Include="Dialog\DlgSysRes.h" />
+    <ClInclude Include="Dialog\DlgSysResEdit.h" />
     <ClInclude Include="Dialog\DlgUserOrg.h" />
     <ClInclude Include="DQUserManagerInc.h" />
     <ClInclude Include="Interface\UserManager.h" />
@@ -290,4 +298,9 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="DQ.User.Manager.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

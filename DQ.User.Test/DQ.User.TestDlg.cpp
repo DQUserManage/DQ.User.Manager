@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CDQUserTestDlg, CBCGPDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BTN_USER, &CDQUserTestDlg::OnBnClickedBtnUser)
+	ON_BN_CLICKED(IDC_BTN_RES, &CDQUserTestDlg::OnBnClickedBtnRes)
 END_MESSAGE_MAP()
 
 
@@ -103,7 +104,7 @@ BOOL CDQUserTestDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);	
 
 	//
-	CString csConn = _T("(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521))(CONNECT_DATA=(SID= ORCL)));User Id=rpas;Password=rpas");
+	CString csConn = _T("(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521))(CONNECT_DATA=(SID= ORCL)));User Id=perf;Password=perf");
 	CUserManagerDataService::GetInstance()->DBInit(csConn, (int)DB_Oracle);
 
 	return TRUE; 
@@ -154,4 +155,10 @@ HCURSOR CDQUserTestDlg::OnQueryDragIcon()
 void CDQUserTestDlg::OnBnClickedBtnUser()
 {
 	CDQUserManager::GetInstance()->DoUserOrgSettings();
+}
+
+
+void CDQUserTestDlg::OnBnClickedBtnRes()
+{
+	CDQUserManager::GetInstance()->DoSysResSettings();
 }

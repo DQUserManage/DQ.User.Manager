@@ -1,10 +1,24 @@
 #pragma once
 
-//////////////////////////////////////////////////////////////////////////////////                                                                            ///  @file     UserManagerDataAccess.h                                                       ///  @brief    用户管理模块数据访问接口（所有对数据的访问都应写在此文件中）                                                                             ///  @author   lqt                                                                                                        ///  @version  1.0.0                                                ///  @date     2018.06.28                                                                                ///                                                                          ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///                                                                            
+///  @file     UserManagerDataAccess.h                                                       
+///  @brief    用户管理模块数据访问接口（所有对数据的访问都应写在此文件中）                                                                             
+///  @author   lqt                                                                                                        
+///  @version  1.0.0                                                
+///  @date     2018.06.28                                                                                
+///                                                                          
+///////////////////////////////////////////////////////////////////////////////
 
 class CDbUtilityMediator;
 
-/**   数据访问接口（单例模式）*/class EXPORT_USER_MANAGER CUserManagerDataService
+#include <vector>
+using namespace std;
+
+/**
+   数据访问接口（单例模式）
+*/
+class EXPORT_USER_MANAGER CUserManagerDataService
 {
 public:
 	~CUserManagerDataService(void);
@@ -31,6 +45,29 @@ public:
 public:
 	/** 数据访问简单测试*/
 	bool DoTest();
+
+public:  ///<系统资源数据访问
+
+	/**获取系统资源基本信息 */
+	bool GetSysRes(std::vector<CSysRes>& vRes);
+
+	/** 清空系统资源信息 */
+	bool DeleteAllSysRes();
+
+	/** 删除特定系统资源信息*/
+	bool DelSysRes(const CString& csResID);
+
+	/** 新增系统资源*/
+	bool AddSysRes(const CSysRes& res);
+
+	/** 编辑系统资源*/
+	bool EditSysRes(const CSysRes& res);
+
+	/** 上传系统资源*/
+	bool UploadSysRes(const CSysRes& res, const CString& csFileName);
+
+	/** 获取系统资源信息*/
+	bool GetSysResBasic(CSysRes& res);
 
 private:
 	CDbUtilityMediator*  m_pDB;  ///<数据访问中介者
