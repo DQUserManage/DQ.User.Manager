@@ -18,7 +18,7 @@ class EXPORT_USER_MANAGER CUserUtility
 public:
 	/** 生成唯一不重复的字串
 	@param nLen 字串长度
-	@note  用该函数之前一定要先初始化种子函数：srand(GetTime(NULL))
+	@note  用该函数之前一定要先初始化种子函数：srand(time(NULL))
 	*/
 	static CString GenerateUniqueStr(int nLen);
 
