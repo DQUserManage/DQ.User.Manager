@@ -54,7 +54,7 @@ bool CUserManagerDataService::DBInit(const CString& csConn, int nType)
 }
 
 //--------------------------------------
-CDataTableMediator* CUserManagerDataService::GetOrgInfo()
+std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetOrgInfo()
 {
 	ASSERT(m_pDB != NULL);
 
