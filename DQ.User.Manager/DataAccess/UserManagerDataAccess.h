@@ -3,12 +3,23 @@
 #include"../COrgInfo.h"
 #include"../CUserInfo.h"
 
-//////////////////////////////////////////////////////////////////////////////////                                                                            ///  @file     UserManagerDataAccess.h                                                       ///  @brief    用户管理模块数据访问接口（所有对数据的访问都应写在此文件中）                                                                             ///  @author   lqt                                                                                                        ///  @version  1.0.0                                                ///  @date     2018.06.28                                                                                ///                                                                          ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///                                                                            
+///  @file     UserManagerDataAccess.h                                                       
+///  @brief    用户管理模块数据访问接口（所有对数据的访问都应写在此文件中）                                                                             
+///  @author   lqt                                                                                                        
+///  @version  1.0.0                                                
+///  @date     2018.06.28                                                                                
+///                                                                          
+///////////////////////////////////////////////////////////////////////////////
 
 class CDbUtilityMediator;
 class CDataTableMediator;
 
-/**   数据访问接口（单例模式）*/class EXPORT_USER_MANAGER CUserManagerDataService
+/**
+   数据访问接口（单例模式）
+*/
+class EXPORT_USER_MANAGER CUserManagerDataService
 {
 public:
 	~CUserManagerDataService(void);
