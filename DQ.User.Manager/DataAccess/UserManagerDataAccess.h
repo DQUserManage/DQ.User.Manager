@@ -64,13 +64,13 @@ public:
 	BOOL GetDeptNode(const CString& csParent,vector<COrgInfo>& vDept);
 public:
 	/** 获取用户信息 */
-	std::shared_ptr<CDataTableMediator> GetBranchUser(CString ItemTxt);
+	CDataTableMediator* GetBranchUser(CString ItemTxt);
 	/** 添加用户信息 */
 	BOOL InsertUserInfo(CUserInfo UserInfo);
 	/** 删除用户 */
 	BOOL DeleteUserInfo(CString UserID);
 	/** 获取用户信息通过用户ID */
-	std::shared_ptr<CDataTableMediator> GetUserInfoUserUserID(CString UserID);
+	CDataTableMediator* GetUserInfoUserUserID(CString UserID);
 	/** 更新用户信息 */
 	BOOL UpdateUserInfo(CUserInfo UserInfo);
 	

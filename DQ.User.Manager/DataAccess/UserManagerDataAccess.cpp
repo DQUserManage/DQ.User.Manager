@@ -155,13 +155,13 @@ BOOL CUserManagerDataService::UpdateOrgInfo(COrgInfo OrgInfo)
 }
 
 
-std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetBranchUser(CString ItemTxt)
+CDataTableMediator* CUserManagerDataService::GetBranchUser(CString ItemTxt)
 {
 	ASSERT(m_pDB != NULL);
 
 	CString sSql = L"";
 	sSql.Format(_T("select * from SYS_USER t where ORG_ID = (select ORG_ID from SYS_ORGNIZATION where ORG_NAME = '%s')"), ItemTxt);
-	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteTable(sSql));
+	CDataTableMediator* pTab = m_pDB->ExecuteTable(sSql);
 	if (!pTab)
 		return NULL;
 
@@ -216,13 +216,13 @@ BOOL CUserManagerDataService::DeleteUserInfo(CString UserID)
 }
 
 
-std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetUserInfoUserUserID(CString UserID)
+CDataTableMediator* CUserManagerDataService::GetUserInfoUserUserID(CString UserID)
 {
 	ASSERT(m_pDB != NULL);
 
 	CString sSql = L"";
 	sSql.Format(_T("SELECT * FROM SYS_USER where USER_ID = '%s'"), UserID);
-	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(sSql));
+	CDataTableMediator* pTab = m_pDB->ExecuteOrclTable(sSql);
 	if (!pTab)
 		return NULL;
 
