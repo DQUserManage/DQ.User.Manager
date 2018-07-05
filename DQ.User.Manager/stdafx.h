@@ -43,5 +43,6 @@
 #include "UserManagerDefine.h"
 
 #include "DQUserManagerInc.h"
+#include <afxcontrolbars.h>
 
 extern HINSTANCE gInst;

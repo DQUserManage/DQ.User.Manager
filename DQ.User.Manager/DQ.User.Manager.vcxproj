@@ -237,8 +237,12 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="COrgInfo.cpp" />
+    <ClCompile Include="CUserInfo.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
     <ClCompile Include="Dialog\DlgUserOrg.cpp" />
+    <ClCompile Include="Dialog\Dlg_AddOrg.cpp" />
+    <ClCompile Include="Dialog\Dlg_AddUser.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -269,9 +273,13 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <None Include="res\DQUserManager.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="COrgInfo.h" />
+    <ClInclude Include="CUserInfo.h" />
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />
     <ClInclude Include="Dialog\DlgUserOrg.h" />
+    <ClInclude Include="Dialog\Dlg_AddOrg.h" />
+    <ClInclude Include="Dialog\Dlg_AddUser.h" />
     <ClInclude Include="DQUserManagerInc.h" />
     <ClInclude Include="Interface\UserManager.h" />
     <ClInclude Include="Layout\ETSLayout.h" />
@@ -288,4 +296,9 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="DQ.User.Manager.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
