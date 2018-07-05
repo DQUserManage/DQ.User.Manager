@@ -38,10 +38,12 @@ private:
 	CEdit		m_eUserDescription;
 
 	CUserInfo	m_UserInfo;				
+	CString		m_UserID;
 	CString		m_OrgName;				///< 用户所属部门名称
 	CString		m_OrgID;				///< 用户所属部门ID
 	int			m_OperatorType;			///< 操作类型 0：添加用户 1：修改用户
 public:
+	void SetUserID(CString UserId) { m_UserID = UserId; };
 	void SetOrgName(CString OrgName) {m_OrgName = OrgName;}
 	void SetOrgID(CString OrgID) { m_OrgID = OrgID; }
 	void SetUserInfo(CUserInfo UserInfo) { m_UserInfo = UserInfo; }

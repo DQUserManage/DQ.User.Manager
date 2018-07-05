@@ -13,6 +13,9 @@ IMPLEMENT_DYNAMIC(CDlg_AddUser, CUserDialogBase)
 CDlg_AddUser::CDlg_AddUser(CWnd* pParent /*=NULL*/)
 	: CUserDialogBase(IDD_DLG_ADD_USER, pParent)
 {
+	m_UserID = _T("");
+	m_OrgName = _T("");
+	m_OrgID = _T("");
 	m_OperatorType = -1;
 }
 
@@ -48,15 +51,16 @@ BOOL CDlg_AddUser::OnInitDialog()
 {
 	CUserDialogBase::OnInitDialog();
 
+	m_eUserID.SetWindowText(m_UserID);
 	m_eOrgName.SetWindowText(m_OrgName);
 	m_UserInfo.SetOrgID(m_OrgID);
+	m_UserInfo.SetUserID(m_UserID);
 
 	if (m_OperatorType == 0)
 		this->SetWindowText(L"添加用户");
 	else
 	{
 		this->SetWindowText(L"修改用户");
-		m_eUserID.SetWindowText(m_UserInfo.GetUserID());
 		m_eUserName.SetWindowText(m_UserInfo.GetUserNames());
 		m_eUserSex.SetWindowText(m_UserInfo.GetUserSex());
 		m_eUserPwd.SetWindowText(m_UserInfo.GetUserPw());

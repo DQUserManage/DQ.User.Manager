@@ -24,6 +24,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
+	HTREEITEM						m_hItem;					///<树节点 点击
 	CTreeCtrl						m_tOrgTree;					///<部门 树控件
 	CBCGPGridCtrl*					m_pGridCtrl;				///<定义Grid控件变量
 	vector<COrgInfo>				m_VecOrgInfo;				///<部门信息列表
@@ -31,7 +32,7 @@ private:
 public:
 	afx_msg void OnTvnSelchangedTreeUserOrg(NMHDR *pNMHDR, LRESULT *pResult);
 	/** 部门填充树控件 */
-	void FillBranchTree(CDataTableMediator *pTable, CString sParentID, HTREEITEM hRoot);
+	void FillBranchTree(std::shared_ptr<CDataTableMediator> pTable, CString sParentID, HTREEITEM hRoot);
 	/** 根据树控件部门的选择情况显示部门人员 */
 	void ShowBranchUser();
 	/** 左键点击树控件 */
