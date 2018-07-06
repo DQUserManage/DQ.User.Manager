@@ -22,3 +22,16 @@ public:
 public:
 	CString m_csDeptID;  ///<部门ID
 };
+
+/**
+	选择系统资源编辑控件
+*/
+class EXPORT_USER_MANAGER CResBrowserEdit : public CBCGPEdit
+{
+public:
+	/** 弹出系统资源显示窗体*/
+	virtual void OnBrowse();
+
+public:
+	CString m_csResID;  ///<资源ID
+};

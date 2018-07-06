@@ -2,6 +2,7 @@
 #include "CustomControl.h"
 
 #include "Dialog/DlgDeptTree.h"
+#include "Dialog/DlgSelRes.h"
 
 void CDeptBrowserEdit::OnBrowse()
 {
@@ -13,4 +14,17 @@ void CDeptBrowserEdit::OnBrowse()
 
 	m_csDeptID = dlg.m_csOrgID;
 	SetWindowText(dlg.m_csOrgName);
+}
+
+//----------------------------------------
+void CResBrowserEdit::OnBrowse()
+{
+	CUserManagerResLock res(gInst);
+
+	CDlgSelRes dlg(m_csResID);
+	if (dlg.DoModal() != IDOK)
+		return;
+
+	m_csResID = dlg.m_csResID;
+	SetWindowText(dlg.m_csResName);
 }
