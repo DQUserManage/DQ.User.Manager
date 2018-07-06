@@ -2,7 +2,10 @@
 #pragma once
 
 #include "UserManagerDefine.h"
+#include "DataAccess/COrgInfo.h"
+#include "DataAccess/CUserInfo.h"
 #include "DataAccess/SysRes.h"
+#include "DataAccess/SysMod.h"
 #include "DataAccess/UserManagerDataAccess.h"
 #include "Interface/UserManager.h" 
 

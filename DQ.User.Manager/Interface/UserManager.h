@@ -30,6 +30,9 @@ public:
 	/** 系统资源设置 */
 	BOOL DoSysResSettings();
 
+	/** 系统模块设置 */
+	BOOL DoSysModSettings();
+
 private:
 	CDQUserManager() {}
 	CDQUserManager(const CDQUserManager& rhs) { operator=(rhs); }

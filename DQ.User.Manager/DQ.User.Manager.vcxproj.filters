@@ -28,9 +28,6 @@
     <Filter Include="Dialog">
       <UniqueIdentifier>{c447ab5c-a225-4c72-8fa2-7c73f205d256}</UniqueIdentifier>
     </Filter>
-    <Filter Include="InfoSet">
-      <UniqueIdentifier>{f8ffa961-e74c-45f5-8a76-2ec472780c7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Control">
       <UniqueIdentifier>{646bfca3-9b77-47e5-b102-4080eb015a7f}</UniqueIdentifier>
     </Filter>
@@ -66,12 +63,6 @@
     <ClCompile Include="Dialog\Dlg_AddOrg.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="COrgInfo.cpp">
-      <Filter>InfoSet</Filter>
-    </ClCompile>
-    <ClCompile Include="CUserInfo.cpp">
-      <Filter>InfoSet</Filter>
-    </ClCompile>
     <ClCompile Include="Dialog\Dlg_AddUser.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
@@ -89,6 +80,21 @@
     </ClCompile>
     <ClCompile Include="Control\CustomControl.cpp">
       <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog\DlgDeptTree.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog\DlgSysMod.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="DataAccess\SysMod.cpp">
+      <Filter>DataAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="DataAccess\COrgInfo.cpp">
+      <Filter>DataAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="DataAccess\CUserInfo.cpp">
+      <Filter>DataAccess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,12 +145,6 @@
     <ClInclude Include="Dialog\Dlg_AddOrg.h">
       <Filter>Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="COrgInfo.h">
-      <Filter>InfoSet</Filter>
-    </ClInclude>
-    <ClInclude Include="CUserInfo.h">
-      <Filter>InfoSet</Filter>
-    </ClInclude>
     <ClInclude Include="Dialog\Dlg_AddUser.h">
       <Filter>Dialog</Filter>
     </ClInclude>
@@ -160,8 +160,23 @@
     <ClInclude Include="Dialog\DlgSysResEdit.h">
       <Filter>Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="Dialog\DlgDeptTree.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
     <ClInclude Include="Control\CustomControl.h">
       <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog\DlgSysMod.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="DataAccess\SysMod.h">
+      <Filter>DataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="DataAccess\COrgInfo.h">
+      <Filter>DataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="DataAccess\CUserInfo.h">
+      <Filter>DataAccess</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -55,29 +55,28 @@ BOOL CDlgUserOrg::OnInitDialog()
 	CRect rGridRect;
 	GetDlgItem(IDC_STATIC_SHOW_USER)->GetWindowRect(rGridRect);
 	ScreenToClient(rGridRect);
-	m_pGridCtrl = new CBCGPGridCtrl;
 
-	if (!m_pGridCtrl->Create(WS_CHILD | WS_VISIBLE, rGridRect, this, 100))
+	if (!m_GridCtrl.Create(WS_CHILD | WS_VISIBLE, rGridRect, this, 100))
 		return FALSE;
 
-	m_pGridCtrl->EnableMarkSortedColumn(FALSE);
-	m_pGridCtrl->EnableHeader(TRUE, BCGP_GRID_HEADER_MOVE_ITEMS);
-	m_pGridCtrl->EnableRowHeader(TRUE);
-	m_pGridCtrl->EnableLineNumbers();
-	m_pGridCtrl->SetClearInplaceEditOnEnter(FALSE);
-	m_pGridCtrl->EnableInvertSelOnCtrl();
-	m_pGridCtrl->SetScalingRange(0.1, 4.0);
+	m_GridCtrl.EnableMarkSortedColumn(FALSE);
+	m_GridCtrl.EnableHeader(TRUE, BCGP_GRID_HEADER_MOVE_ITEMS);
+	m_GridCtrl.EnableRowHeader(TRUE);
+	m_GridCtrl.EnableLineNumbers();
+	m_GridCtrl.SetClearInplaceEditOnEnter(FALSE);
+	m_GridCtrl.EnableInvertSelOnCtrl();
+	m_GridCtrl.SetScalingRange(0.1, 4.0);
 
-	m_pGridCtrl->InsertColumn(0, _T("用户ID"), globalUtils.ScaleByDPI(60));
-	m_pGridCtrl->InsertColumn(1, _T("部门ID"), globalUtils.ScaleByDPI(100));
-	m_pGridCtrl->InsertColumn(2, _T("用户名称"), globalUtils.ScaleByDPI(80));
+	m_GridCtrl.InsertColumn(0, _T("用户ID"), globalUtils.ScaleByDPI(60));
+	m_GridCtrl.InsertColumn(1, _T("部门ID"), globalUtils.ScaleByDPI(100));
+	m_GridCtrl.InsertColumn(2, _T("用户名称"), globalUtils.ScaleByDPI(80));
 
-	m_pGridCtrl->AdjustLayout();
+	m_GridCtrl.AdjustLayout();
 
 	std::shared_ptr<CDataTableMediator> pTable = CUserManagerDataService::GetInstance()->GetOrgInfo();
 
 	//部门填充树控件
-	FillBranchTree(pTable, L"", TVI_ROOT);
+	FillBranchTree(pTable.get(), L"", TVI_ROOT);
 
 	//根据树控件部门的选择情况显示部门人员
 	ShowBranchUser();
@@ -86,7 +85,7 @@ BOOL CDlgUserOrg::OnInitDialog()
 }
 
 
-void CDlgUserOrg::FillBranchTree(std::shared_ptr<CDataTableMediator> pTable, CString sParentID, HTREEITEM hRoot)
+void CDlgUserOrg::FillBranchTree(CDataTableMediator* pTable, CString sParentID, HTREEITEM hRoot)
 {
 	vector<CUserInfo> VecUserInfo;
 	COrgInfo OrgInfo;
@@ -116,7 +115,7 @@ void CDlgUserOrg::FillBranchTree(std::shared_ptr<CDataTableMediator> pTable, CSt
 		m_VecOrgInfo.push_back(OrgInfo);
 
 		HTREEITEM hParent = m_tOrgTree.InsertItem(pTempTable->GetStringField(i, L"ORG_NAME"), hRoot);
-		m_tOrgTree.SetItemData(hParent, (DWORD_PTR)new CString(pTempTable->GetStringField(i, L"ORG_ID")));
+		//m_tOrgTree.SetItemData(hParent, (DWORD_PTR)new CString(pTempTable->GetStringField(i, L"ORG_ID")));
 
 		FillBranchTree(pTable, pTempTable->GetStringField(i, L"ORG_ID"), hParent);
 	}
@@ -134,31 +133,31 @@ void CDlgUserOrg::ShowBranchUser()
 	HTREEITEM SelectItem = m_tOrgTree.HitTest(point, &uFlag);
 	CString ItemText = m_tOrgTree.GetItemText(SelectItem);
 	//根据选中的节点 获取部门对应的用户
-	std::shared_ptr<CDataTableMediator> pTab = CUserManagerDataService::GetInstance()->GetBranchUser(ItemText);
+	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetBranchUser(ItemText));
 	if (pTab)
 	{
 		int RowCount = pTab->GetRowCount();
 		/*同时删除行和列*/
-		m_pGridCtrl->DeleteAllColumns();
-		m_pGridCtrl->RemoveAll();
+		m_GridCtrl.DeleteAllColumns();
+		m_GridCtrl.RemoveAll();
 
-		m_pGridCtrl->InsertColumn(0, _T("用户ID"), globalUtils.ScaleByDPI(60));
-		m_pGridCtrl->InsertColumn(1, _T("部门ID"), globalUtils.ScaleByDPI(100));
-		m_pGridCtrl->InsertColumn(2, _T("用户名称"), globalUtils.ScaleByDPI(80));
+		m_GridCtrl.InsertColumn(0, _T("用户ID"), globalUtils.ScaleByDPI(60));
+		m_GridCtrl.InsertColumn(1, _T("部门ID"), globalUtils.ScaleByDPI(100));
+		m_GridCtrl.InsertColumn(2, _T("用户名称"), globalUtils.ScaleByDPI(80));
 
 		CBCGPGridRow* pRow;
 		for (int i = 0; i < RowCount; i++)
 		{
-			pRow = m_pGridCtrl->CreateRow(m_pGridCtrl->GetColumnCount());
+			pRow = m_GridCtrl.CreateRow(m_GridCtrl.GetColumnCount());
 
 			/*设置行号*/
 			pRow->GetItem(0)->SetValue((_variant_t)pTab->GetStringField(i, L"USER_ID"));
 			pRow->GetItem(1)->SetValue((_variant_t)pTab->GetStringField(i, L"ORG_ID"));
 			pRow->GetItem(2)->SetValue((_variant_t)pTab->GetStringField(i, L"USER_NAME"));
 
-			m_pGridCtrl->AddRow(pRow, FALSE);
+			m_GridCtrl.AddRow(pRow, FALSE);
 		}
-		m_pGridCtrl->AdjustLayout();
+		m_GridCtrl.AdjustLayout();
 	}
 }
 
@@ -337,14 +336,14 @@ void CDlgUserOrg::OnBnClickedBtnAddUser()
 		if (Result)
 		{
 			CBCGPGridRow* pRow;
-			pRow = m_pGridCtrl->CreateRow(m_pGridCtrl->GetColumnCount());
+			pRow = m_GridCtrl.CreateRow(m_GridCtrl.GetColumnCount());
 
 			pRow->GetItem(0)->SetValue((_variant_t)UserInfo.GetUserID());
 			pRow->GetItem(1)->SetValue((_variant_t)UserInfo.GetOrgID());
 			pRow->GetItem(2)->SetValue((_variant_t)UserInfo.GetUserNames());
 
-			m_pGridCtrl->AddRow(pRow, FALSE);
-			m_pGridCtrl->AdjustLayout();
+			m_GridCtrl.AddRow(pRow, FALSE);
+			m_GridCtrl.AdjustLayout();
 		}
 		else
 			MessageBox(L"数据不合理，操作失败");
@@ -355,22 +354,22 @@ void CDlgUserOrg::OnBnClickedBtnAddUser()
 void CDlgUserOrg::OnBnClickedBtnDelUser()
 {
 	CString UserID = L"";
-	CBCGPGridRow* pCurSelRow = m_pGridCtrl->GetCurSel();
+	CBCGPGridRow* pCurSelRow = m_GridCtrl.GetCurSel();
 	if (pCurSelRow == NULL)
 	{
 		MessageBox(L"删除错误，没有选定删除对象");
 	}
 	else
 	{
-		for (int i = m_pGridCtrl->GetRowCount() - 1; i >= 0; i--)
+		for (int i = m_GridCtrl.GetRowCount() - 1; i >= 0; i--)
 		{
-			if (m_pGridCtrl->IsRowSelected(i))
+			if (m_GridCtrl.IsRowSelected(i))
 			{
-				UserID = m_pGridCtrl->GetRow(i)->GetItem(0)->GetValue();
+				UserID = m_GridCtrl.GetRow(i)->GetItem(0)->GetValue();
 
 				BOOL Result = CUserManagerDataService::GetInstance()->DeleteUserInfo(UserID);
 				if(Result)
-					m_pGridCtrl->RemoveRow(i);
+					m_GridCtrl.RemoveRow(i);
 				else
 					MessageBox(L"数据不合理，操作失败");
 			}
@@ -386,25 +385,25 @@ void CDlgUserOrg::OnBnClickedBtnUpdateUser()
 	CBCGPGridRow* pRow = NULL;
 	CUserInfo UserInfo;
 	CString UserID = L"";
-	CBCGPGridRow* pCurSelRow = m_pGridCtrl->GetCurSel();
+	CBCGPGridRow* pCurSelRow = m_GridCtrl.GetCurSel();
 	if (pCurSelRow == NULL)
 	{
 		MessageBox(L"没有选定删除对象");
 	}
 	else
 	{
-		for (int i = m_pGridCtrl->GetRowCount() - 1; i >= 0; i--)
+		for (int i = m_GridCtrl.GetRowCount() - 1; i >= 0; i--)
 		{
-			if (m_pGridCtrl->IsRowSelected(i))
+			if (m_GridCtrl.IsRowSelected(i))
 			{
-				UserID = m_pGridCtrl->GetRow(i)->GetItem(0)->GetValue();
-				pRow = m_pGridCtrl->GetRow(i);
+				UserID = m_GridCtrl.GetRow(i)->GetItem(0)->GetValue();
+				pRow = m_GridCtrl.GetRow(i);
 				break;
 			}
 		}
 	}
 
-	std::shared_ptr<CDataTableMediator> pTab = CUserManagerDataService::GetInstance()->GetUserInfoUserUserID(UserID);
+	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetUserInfoUserUserID(UserID));
 	if (pTab)
 	{
 		UserInfo.SetUserID(pTab->GetStringField(0, L"USER_ID"));
@@ -443,7 +442,7 @@ void CDlgUserOrg::OnBnClickedBtnUpdateUser()
 			pRow->GetItem(1)->SetValue((_variant_t)UserInfo.GetOrgID());
 			pRow->GetItem(2)->SetValue((_variant_t)UserInfo.GetUserNames());
 
-			m_pGridCtrl->AdjustLayout();
+			m_GridCtrl.AdjustLayout();
 		}
 		else
 			MessageBox(L"数据不合理，操作失败");
@@ -456,14 +455,14 @@ void CDlgUserOrg::OnBnClickedBtnUpdateUser()
 void CDlgUserOrg::OnBnClickedBtnAllDelete()
 {
 	CString UserID;
-	for (int i = m_pGridCtrl->GetRowCount(); i >= 0; i--)
+	for (int i = m_GridCtrl.GetRowCount(); i >= 0; i--)
 	{
-		CBCGPGridRow* pCurSelRow = m_pGridCtrl->GetRow(i);
+		CBCGPGridRow* pCurSelRow = m_GridCtrl.GetRow(i);
 		UserID = pCurSelRow->GetItem(0)->GetValue();
 
 		BOOL Result = CUserManagerDataService::GetInstance()->DeleteUserInfo(UserID);
 		if (Result)
-			m_pGridCtrl->RemoveRow(i);
+			m_GridCtrl.RemoveRow(i);
 		else
 			MessageBox(L"数据不合理，操作失败");
 	}

@@ -1,20 +1,87 @@
 #include "stdafx.h"
 #include "Utility.h"
 
+//** 获取时间（精确到毫秒级）*/
+unsigned long long GetCurrentTimeMsec()
+{
+	struct timeval tv;
+	time_t clock;
+	struct tm tm;
+	SYSTEMTIME wtm;
+
+	GetLocalTime(&wtm);
+	tm.tm_year = wtm.wYear - 1900;
+	tm.tm_mon = wtm.wMonth - 1;
+	tm.tm_mday = wtm.wDay;
+	tm.tm_hour = wtm.wHour;
+	tm.tm_min = wtm.wMinute;
+	tm.tm_sec = wtm.wSecond;
+	tm.tm_isdst = -1;
+	clock = mktime(&tm);
+	tv.tv_sec = clock;
+	tv.tv_usec = wtm.wMilliseconds * 1000;
+	return ((unsigned long long)tv.tv_sec * 1000 + (unsigned long long)tv.tv_usec / 1000);
+}
+
 CString CUserUtility::GenerateUniqueStr(int nLen)
 {
+	/*
 	CString csDst;
 
 	if (nLen <= 0)
-		return csDst; 
+		return csDst;
 
 	CString csSrc = _T("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-	for (int i = 0;i < nLen;i++)
+	while(csDst.GetLength()<nLen)
 	{
-		CString csTmp(csSrc.GetAt(rand() % csSrc.GetLength()));
-		csDst += csTmp;
-		csSrc.Replace(csTmp, _T(""));
+		CString csTmp(csSrc.GetAt(rand() % 62));
+		if (csDst.Find(csTmp) == -1)
+			csDst += csTmp;
+	}
+
+	return csDst;
+	*/
+
+	CString csDst;
+
+	if (nLen <= 0)
+		return csDst;
+
+	CString csSrc = _T("aBcDeFgHiG2kLm3No4Pq5RsTuV0wXyZ1AbC6dEfG7hIgKlMnOpQ8rStUv9WxYz");
+	int shift = rand() % csSrc.GetLength();
+	csDst += csSrc.GetAt(shift);
+
+	CString csNum;
+	csNum.Format(_T("%I64d"), GetCurrentTimeMsec());
+	int nNum = csNum.GetLength();
+	if (nNum > nLen)  //如果数字串长度大于生成串长度,则截取部分数字串
+	{
+		int nStart = nNum - nLen + 1;
+		for (int i = 0;i < nLen - 1;i++)
+			csDst += csNum.Mid(nStart + i, 1);
+	}
+	else if (nNum < nLen) //如果数字串长度小于生成串长度,则补零
+	{
+		csDst += csNum;
+		for (int i = 0;i < nLen - nNum - 1;i++)
+			csDst.Insert(1, _T("0"));
+	}
+
+	//根据映射将数字替换为字符
+	for (int i = 1;i < csDst.GetLength();i++) {
+		int pos = (csDst.GetAt(i) - 48 + shift) % csSrc.GetLength();;
+		csDst.SetAt(i, csSrc[pos]);
+	}
+
+	//针对重复的字符进行优化,将重复的字符替换之
+	if (csDst.GetLength() > 2) {
+		for (int i = 2;i < csDst.GetLength();i++) {
+			if (csDst.GetAt(i) == csDst.GetAt(i - 1)) {
+				//替换的字符要确保不在当前的映射范围之内
+				csDst.SetAt(i - 1, csSrc[(shift + csSrc.GetLength() - i) % csSrc.GetLength()]);
+			}
+		}
 	}
 
 	return csDst;

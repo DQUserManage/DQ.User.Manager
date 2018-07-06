@@ -1,9 +1,5 @@
 #pragma once
 
-#include"../COrgInfo.h"
-#include"../CUserInfo.h"
-#include <memory>
-
 ///////////////////////////////////////////////////////////////////////////////
 ///                                                                            
 ///  @file     UserManagerDataAccess.h                                                       
@@ -18,6 +14,7 @@ class CDbUtilityMediator;
 class CDataTableMediator;
 
 #include <vector>
+#include <memory>
 using namespace std;
 
 /**
@@ -48,10 +45,6 @@ public:
 	void FreeDB();
 
 public:
-	/** 数据访问简单测试*/
-	bool DoTest();
-
-public:
 	/** 查询部门信息 */
 	std::shared_ptr<CDataTableMediator> GetOrgInfo();
 	/** 通过部门名称查询部门信息 */
@@ -64,16 +57,17 @@ public:
 	void DeleteChildOrgInfo(CString ParentID);
 	/** 更新部门信息 */
 	BOOL UpdateOrgInfo(COrgInfo OrgInfo);
-
+	/** 获取根部门信息 */
+	BOOL GetDeptNode(const CString& csParent,vector<COrgInfo>& vDept);
 public:
 	/** 获取用户信息 */
-	std::shared_ptr<CDataTableMediator> GetBranchUser(CString ItemTxt);
+	CDataTableMediator* GetBranchUser(CString ItemTxt);
 	/** 添加用户信息 */
 	BOOL InsertUserInfo(CUserInfo UserInfo);
 	/** 删除用户 */
 	BOOL DeleteUserInfo(CString UserID);
 	/** 获取用户信息通过用户ID */
-	std::shared_ptr<CDataTableMediator> GetUserInfoUserUserID(CString UserID);
+	CDataTableMediator* GetUserInfoUserUserID(CString UserID);
 	/** 更新用户信息 */
 	BOOL UpdateUserInfo(CUserInfo UserInfo);
 	

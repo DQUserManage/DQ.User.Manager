@@ -36,4 +36,5 @@ public:
 	CString   m_csAuthor;     ///<作者
 	CString   m_csVersion;    ///<版本
 	CString   m_csOrgID;      ///<部门ID
+	CString   m_csOrgName;    ///<部门名称
 };

@@ -4,6 +4,7 @@
 
 #include "../Dialog/DlgUserOrg.h"
 #include "../Dialog/DlgSysRes.h"
+#include "../Dialog/DlgSysMod.h"
 
 CDQUserManager* CDQUserManager::m_pInst = nullptr;
 
@@ -43,6 +44,14 @@ BOOL CDQUserManager::DoSysResSettings()
 	CUserManagerResLock res(gInst);
 
 	CDlgSysRes dlg;
+	return dlg.DoModal() == IDOK;
+}
+
+BOOL CDQUserManager::DoSysModSettings()
+{
+	CUserManagerResLock res(gInst);
+
+	CDlgSysMod dlg;
 	return dlg.DoModal() == IDOK;
 }
 
