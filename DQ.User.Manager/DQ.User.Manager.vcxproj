@@ -237,12 +237,14 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="COrgInfo.cpp" />
-    <ClCompile Include="CUserInfo.cpp" />
     <ClCompile Include="Control\CustomControl.cpp" />
+    <ClCompile Include="DataAccess\COrgInfo.cpp" />
+    <ClCompile Include="DataAccess\CUserInfo.cpp" />
+    <ClCompile Include="DataAccess\SysMod.cpp" />
     <ClCompile Include="DataAccess\SysRes.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
     <ClCompile Include="Dialog\DlgDeptTree.cpp" />
+    <ClCompile Include="Dialog\DlgSysMod.cpp" />
     <ClCompile Include="Dialog\DlgSysRes.cpp" />
     <ClCompile Include="Dialog\DlgSysResEdit.cpp" />
     <ClCompile Include="Dialog\DlgUserOrg.cpp" />
@@ -280,12 +282,14 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Control\CustomControl.h" />
-    <ClInclude Include="COrgInfo.h" />
-    <ClInclude Include="CUserInfo.h" />
+    <ClInclude Include="DataAccess\COrgInfo.h" />
+    <ClInclude Include="DataAccess\CUserInfo.h" />
+    <ClInclude Include="DataAccess\SysMod.h" />
     <ClInclude Include="DataAccess\SysRes.h" />
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />
     <ClInclude Include="Dialog\DlgDeptTree.h" />
+    <ClInclude Include="Dialog\DlgSysMod.h" />
     <ClInclude Include="Dialog\DlgSysRes.h" />
     <ClInclude Include="Dialog\DlgSysResEdit.h" />
     <ClInclude Include="Dialog\DlgUserOrg.h" />

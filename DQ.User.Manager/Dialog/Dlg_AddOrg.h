@@ -1,9 +1,5 @@
 #pragma once
 
-#include "../Layout/UserDialogBase.h"
-
-#include "COrgInfo.h"
-
 class CDlg_AddOrg : public CUserDialogBase
 {
 	DECLARE_DYNAMIC(CDlg_AddOrg)

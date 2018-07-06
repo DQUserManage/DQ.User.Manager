@@ -1,9 +1,5 @@
 #pragma once
 
-#include"../COrgInfo.h"
-#include"../CUserInfo.h"
-#include <memory>
-
 ///////////////////////////////////////////////////////////////////////////////
 ///                                                                            
 ///  @file     UserManagerDataAccess.h                                                       
@@ -18,6 +14,7 @@ class CDbUtilityMediator;
 class CDataTableMediator;
 
 #include <vector>
+#include <memory>
 using namespace std;
 
 /**

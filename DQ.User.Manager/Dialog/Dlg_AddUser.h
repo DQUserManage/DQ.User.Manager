@@ -1,7 +1,4 @@
 #pragma once
-#include "../Layout/UserDialogBase.h"
-
-#include "CUserInfo.h"
 
 // CDlg_AddUser ¶Ô»°¿ò
 

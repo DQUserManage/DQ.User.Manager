@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CDQUserTestDlg, CBCGPDialog)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BTN_USER, &CDQUserTestDlg::OnBnClickedBtnUser)
 	ON_BN_CLICKED(IDC_BTN_RES, &CDQUserTestDlg::OnBnClickedBtnRes)
+	ON_BN_CLICKED(IDC_BTN_MOD, &CDQUserTestDlg::OnBnClickedBtnMod)
 END_MESSAGE_MAP()
 
 
@@ -161,4 +162,10 @@ void CDQUserTestDlg::OnBnClickedBtnUser()
 void CDQUserTestDlg::OnBnClickedBtnRes()
 {
 	CDQUserManager::GetInstance()->DoSysResSettings();
+}
+
+
+void CDQUserTestDlg::OnBnClickedBtnMod()
+{
+	CDQUserManager::GetInstance()->DoSysModSettings();
 }
