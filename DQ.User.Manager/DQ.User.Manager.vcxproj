@@ -244,6 +244,8 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClCompile Include="DataAccess\SysRes.cpp" />
     <ClCompile Include="DataAccess\UserManagerDataAccess.cpp" />
     <ClCompile Include="Dialog\DlgDeptTree.cpp" />
+    <ClCompile Include="Dialog\DlgModeInfo.cpp" />
+    <ClCompile Include="Dialog\DlgSelRes.cpp" />
     <ClCompile Include="Dialog\DlgSysMod.cpp" />
     <ClCompile Include="Dialog\DlgSysRes.cpp" />
     <ClCompile Include="Dialog\DlgSysResEdit.cpp" />
@@ -294,6 +296,8 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClInclude Include="DataAccess\UserManagerDataAccess.h" />
     <ClInclude Include="DBMediatorInc.h" />
     <ClInclude Include="Dialog\DlgDeptTree.h" />
+    <ClInclude Include="Dialog\DlgModeInfo.h" />
+    <ClInclude Include="Dialog\DlgSelRes.h" />
     <ClInclude Include="Dialog\DlgSysMod.h" />
     <ClInclude Include="Dialog\DlgSysRes.h" />
     <ClInclude Include="Dialog\DlgSysResEdit.h" />

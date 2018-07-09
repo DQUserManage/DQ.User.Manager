@@ -105,6 +105,16 @@ public:  ///<系统资源数据访问
 	/** 获取上传内容 */
 	bool GetUploadSysRes(const CString& csResID, BYTE*& pBuf, int& nSize);
 
+public:  ///<系统模块数据访问
+
+	/** 获取系统模块树信息*/
+	bool GetSysModeNode(const CString& csParentID, vector<CSysMod>& vNode);
+
+	/** 获取系统模块树信息*/
+	bool SaveSysModeInfo(CStringArray& vSQL);
+
+	/** 获取系统模块基本信息*/
+	bool GetSysModeBasic(CSysMod& mod);
 private:
 	CDbUtilityMediator*  m_pDB;  ///<数据访问中介者
 };

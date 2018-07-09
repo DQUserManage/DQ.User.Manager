@@ -96,6 +96,12 @@
     <ClCompile Include="DataAccess\CUserInfo.cpp">
       <Filter>DataAccess</Filter>
     </ClCompile>
+    <ClCompile Include="Dialog\DlgModeInfo.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog\DlgSelRes.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
     <ClCompile Include="Dialog\Dlg_UserInfo.cpp">
       <Filter>Dialog</Filter>
     </ClCompile>
@@ -192,6 +198,12 @@
     </ClInclude>
     <ClInclude Include="DataAccess\CUserInfo.h">
       <Filter>DataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog\DlgSelRes.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog\DlgModeInfo.h">
+      <Filter>Dialog</Filter>
     </ClInclude>
     <ClInclude Include="Dialog\Dlg_UserInfo.h">
       <Filter>Dialog</Filter>

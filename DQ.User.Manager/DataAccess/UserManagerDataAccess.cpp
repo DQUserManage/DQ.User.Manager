@@ -478,3 +478,62 @@ bool CUserManagerDataService::GetSysResBasic(CSysRes& res)
 
 	return false;
 }
+
+//---------------------------------------------------------------
+bool CUserManagerDataService::GetSysModeNode(const CString& csParentID, vector<CSysMod>& vMode)
+{
+	vMode.clear();
+	//
+	CString csSQL;
+
+	if (csParentID.IsEmpty())
+		csSQL.Format(_T("SELECT * from SYS_MODULE where nvl(PARENT_ID,' ')=' ' order by RES_ORDER"));
+	else
+		csSQL.Format(_T("SELECT * from SYS_MODULE where trim(PARENT_ID)='%s' order by RES_ORDER"), csParentID);
+
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(csSQL));
+	if (!pTab)
+		return false;
+
+	int iCount = pTab->GetRowCount();
+	for (int i = 0;i < iCount;i++)
+	{
+		CSysMod info;
+		info.m_csModID = pTab->GetStringField(i, _T("NODE_ID"));
+		info.m_csName = pTab->GetStringField(i, _T("RES_NAME"));
+		info.m_csModType = pTab->GetStringField(i, _T("RES_TYPE"));
+		info.m_csResID = pTab->GetStringField(i, _T("RES_ID"));
+
+		vMode.push_back(info);
+	}
+	return true;
+}
+
+bool CUserManagerDataService::SaveSysModeInfo(CStringArray& vSQL)
+{
+	return m_pDB->ExecuteQuery(&vSQL) > 0;
+}
+
+bool CUserManagerDataService::GetSysModeBasic(CSysMod& mod)
+{
+	CString csSQL;
+	csSQL.Format(_T("SELECT node_id,a.res_name,a.res_type,a.res_id\
+(select res_name from SYS_RESOURCE where res_id = a.res_id) org_name from SYS_MODULE a where node_id = '%s'"), mod.m_csModID);
+
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(csSQL));
+	if (!pTab)
+		return false;
+
+	int iCount = pTab->GetRowCount();
+	if (iCount == 1)
+	{
+		const int i = 0;
+		mod.m_csName = pTab->GetStringField(i, _T("res_name"));
+		mod.m_csModType = pTab->GetStringField(i, _T("res_type"));
+		mod.m_csResID = pTab->GetStringField(i, _T("res_id"));
+		mod.m_csResName = pTab->GetStringField(i, _T("org_name"));
+		return true;
+	}
+
+	return false;
+}
