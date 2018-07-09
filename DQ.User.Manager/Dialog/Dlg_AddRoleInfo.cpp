@@ -24,6 +24,7 @@ void CDlg_AddRoleInfo::DoDataExchange(CDataExchange* pDX)
 {
 	CUserDialogBase::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT_ROLE_NAME, m_eRoleName);
+	DDX_Control(pDX, IDC_TREE_ROLE_POWER, m_wndMod);
 }
 
 
@@ -38,12 +39,39 @@ BOOL CDlg_AddRoleInfo::OnInitDialog()
 	CUserDialogBase::OnInitDialog();
 
 	//初始化角色权限
-	std::shared_ptr<CDataTableMediator> pTable = CUserManagerDataService::GetInstance()->GetOrgInfo();
+	vector<CSysMod> vMode;
+	CUserManagerDataService::GetInstance()->GetSysModeNode(_T(""), vMode);
+	for (size_t i = 0; i < vMode.size(); i++)
+	{
+		CSysMod& info = vMode[i];
 
-	//部门填充树控件
-	FillPowerTree(pTable.get(), L"", TVI_ROOT);
+		HTREEITEM hRoot = m_wndMod.InsertItem(info.m_csName, TVI_ROOT);
+
+		FillModeTree(hRoot, info.m_csModID);
+
+		m_wndMod.Expand(hRoot, TVE_EXPAND);
+	}
+
+	m_wndMod.SetRedraw(TRUE);
 
 	return TRUE;
+}
+
+
+void CDlg_AddRoleInfo::FillModeTree(HTREEITEM hParent, const CString& csParent)
+{
+	std::vector<CSysMod> vMode;
+	CUserManagerDataService::GetInstance()->GetSysModeNode(csParent, vMode);
+	for (size_t i = 0; i < vMode.size(); i++)
+	{
+		CSysMod& info = vMode[i];
+
+		HTREEITEM hItem = m_wndMod.InsertItem(info.m_csName, hParent);
+
+		FillModeTree(hItem, info.m_csModID);
+
+		m_wndMod.Expand(hItem, TVE_EXPAND);
+	}
 }
 
 
@@ -55,7 +83,3 @@ void CDlg_AddRoleInfo::OnBnClickedOk()
 }
 
 
-void CDlg_AddRoleInfo::FillPowerTree(CDataTableMediator* pTable, CString sParentID, HTREEITEM hRoot)
-{
-
-}

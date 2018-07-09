@@ -22,12 +22,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	CEdit		m_eRoleName;
-	CString		m_RoleName;
+	CEdit			m_eRoleName;
+	CString			m_RoleName;
+	CBCGPTreeCtrl	m_wndMod;
 public:
 	CString GetRoleName() { return m_RoleName; }
 
-	void FillPowerTree(CDataTableMediator* pTable, CString sParentID, HTREEITEM hRoot);
+	void FillModeTree(HTREEITEM hParent, const CString& csParent);
 public:
 	virtual BOOL OnInitDialog();
 
