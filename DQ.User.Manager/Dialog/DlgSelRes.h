@@ -17,7 +17,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 	virtual BOOL OnInitDialog();
 	LRESULT OnDblClk(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnBnClickedOk();
 	DECLARE_MESSAGE_MAP()
 
 public:
@@ -32,4 +31,6 @@ public:
 private:
 	CBCGPGridCtrl  m_wndRes; ///<系统资源列表
 	CBCGPGridRow*  m_pSelRow;  ///<要选择的行
+public:
+	afx_msg void OnBnClickedOk();
 };
