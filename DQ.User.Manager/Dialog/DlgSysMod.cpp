@@ -96,15 +96,12 @@ void CDlgSysMod::FillModeTree(HTREEITEM hParent, const CString& csParent)
 		m_Ids[hItem] = info;
 
 		FillModeTree(hItem, info.m_csModID);
-
-		m_wndMod.Expand(hItem, TVE_EXPAND);
 	}
 }
 
 void CDlgSysMod::OnNMRClickModTree(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	CPoint pt;
-	GetCursorPos(&pt);
+	CPoint pt(GetMessagePos());
 	ScreenToClient(&pt);
 
 	UINT uFlags = 0;
