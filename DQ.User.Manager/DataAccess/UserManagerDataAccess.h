@@ -49,6 +49,8 @@ public:
 	std::shared_ptr<CDataTableMediator> GetOrgInfo();
 	/** 通过部门名称查询部门信息 */
 	std::shared_ptr<CDataTableMediator> GetOrgInfoUseOrgName(CString OrgName);
+	/** 根据部门ID获取信息 */
+	std::shared_ptr<CDataTableMediator> GetOrgInfoUseOrgID(CString OrgID);
 	/** 添加部门信息 */
 	BOOL InsertOrgInfo(COrgInfo OrgInfo);
 	/** 删除部门信息 */
@@ -61,7 +63,7 @@ public:
 	BOOL GetDeptNode(const CString& csParent,vector<COrgInfo>& vDept);
 public:
 	/** 获取用户信息 */
-	CDataTableMediator* GetBranchUser(CString ItemTxt);
+	CDataTableMediator* GetBranchUser();
 	/** 添加用户信息 */
 	BOOL InsertUserInfo(CUserInfo UserInfo);
 	/** 删除用户 */
@@ -70,6 +72,12 @@ public:
 	CDataTableMediator* GetUserInfoUserUserID(CString UserID);
 	/** 更新用户信息 */
 	BOOL UpdateUserInfo(CUserInfo UserInfo);
+
+public:
+	/** 获取角色信息 */
+	std::shared_ptr<CDataTableMediator> GetRoleInfo();
+	/** 添加用户角色信息表 */
+	BOOL InsertUserRoleInfo(CString UserID,CString UserRole);
 	
 public:  ///<系统资源数据访问
 

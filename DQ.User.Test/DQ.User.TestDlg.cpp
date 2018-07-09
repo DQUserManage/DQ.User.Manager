@@ -73,6 +73,8 @@ BEGIN_MESSAGE_MAP(CDQUserTestDlg, CBCGPDialog)
 	ON_BN_CLICKED(IDC_BTN_USER, &CDQUserTestDlg::OnBnClickedBtnUser)
 	ON_BN_CLICKED(IDC_BTN_RES, &CDQUserTestDlg::OnBnClickedBtnRes)
 	ON_BN_CLICKED(IDC_BTN_MOD, &CDQUserTestDlg::OnBnClickedBtnMod)
+	ON_BN_CLICKED(IDC_BTN_ORG, &CDQUserTestDlg::OnBnClickedBtnOrg)
+	ON_BN_CLICKED(IDC_BTN_ROLE, &CDQUserTestDlg::OnBnClickedBtnRole)
 END_MESSAGE_MAP()
 
 
@@ -155,7 +157,7 @@ HCURSOR CDQUserTestDlg::OnQueryDragIcon()
 
 void CDQUserTestDlg::OnBnClickedBtnUser()
 {
-	CDQUserManager::GetInstance()->DoUserOrgSettings();
+	CDQUserManager::GetInstance()->DoUserSettings();
 }
 
 
@@ -168,4 +170,16 @@ void CDQUserTestDlg::OnBnClickedBtnRes()
 void CDQUserTestDlg::OnBnClickedBtnMod()
 {
 	CDQUserManager::GetInstance()->DoSysModSettings();
+}
+
+
+void CDQUserTestDlg::OnBnClickedBtnOrg()
+{
+	CDQUserManager::GetInstance()->DoOrgSettings();
+}
+
+
+void CDQUserTestDlg::OnBnClickedBtnRole()
+{
+	CDQUserManager::GetInstance()->DoRoleSettings();
 }

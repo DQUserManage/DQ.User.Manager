@@ -36,4 +36,6 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnRes();
 	afx_msg void OnBnClickedBtnMod();
+	afx_msg void OnBnClickedBtnOrg();
+	afx_msg void OnBnClickedBtnRole();
 };

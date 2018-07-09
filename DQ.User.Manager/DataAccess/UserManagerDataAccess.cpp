@@ -80,6 +80,20 @@ std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetOrgInfoUseOrgNam
 }
 
 
+std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetOrgInfoUseOrgID(CString OrgID)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("SELECT * FROM SYS_ORGNIZATION where ORG_ID = '%s'"), OrgID);
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteOrclTable(sSql));
+	if (!pTab)
+		return NULL;
+
+	return pTab;
+}
+
+
 BOOL CUserManagerDataService::InsertOrgInfo(COrgInfo OrgInfo)
 {
 	ASSERT(m_pDB != NULL);
@@ -155,12 +169,12 @@ BOOL CUserManagerDataService::UpdateOrgInfo(COrgInfo OrgInfo)
 }
 
 
-CDataTableMediator* CUserManagerDataService::GetBranchUser(CString ItemTxt)
+CDataTableMediator* CUserManagerDataService::GetBranchUser()
 {
 	ASSERT(m_pDB != NULL);
 
 	CString sSql = L"";
-	sSql.Format(_T("select * from SYS_USER t where ORG_ID = (select ORG_ID from SYS_ORGNIZATION where ORG_NAME = '%s')"), ItemTxt);
+	sSql.Format(_T("select * from SYS_USER t "));
 	CDataTableMediator* pTab = m_pDB->ExecuteTable(sSql);
 	if (!pTab)
 		return NULL;
@@ -275,6 +289,35 @@ BOOL CUserManagerDataService::GetDeptNode(const CString& csParent, vector<COrgIn
 		vDept.push_back(OrgInfo);
 	}
 	return true;
+}
+
+//----------------------------------------------
+
+std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetRoleInfo()
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("select t.*, t.rowid from SYS_ROLE t "));
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteTable(sSql));
+	if (!pTab)
+		return NULL;
+
+	return pTab;
+}
+
+BOOL CUserManagerDataService::InsertUserRoleInfo(CString UserID,CString UserRole)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("insert into SYS_USER_ROLE(USER_ID,ROLE_ID) values('%s','%s')"),UserID, UserRole);
+
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
 }
 
 //---------------------------------------------

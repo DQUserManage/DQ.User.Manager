@@ -24,8 +24,14 @@ public:
 	static void DestroyInstance();
 
 public:
-	/**  组织机构设置 */
-	BOOL DoUserOrgSettings();
+	/** 用户信息操作 */
+	BOOL DoUserSettings();
+
+	/** 部门信息操作 */
+	BOOL DoOrgSettings();
+
+	/** 角色信息管理 */
+	BOOL DoRoleSettings();
 
 	/** 系统资源设置 */
 	BOOL DoSysResSettings();

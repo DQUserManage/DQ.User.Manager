@@ -249,7 +249,11 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClCompile Include="Dialog\DlgSysResEdit.cpp" />
     <ClCompile Include="Dialog\DlgUserOrg.cpp" />
     <ClCompile Include="Dialog\Dlg_AddOrg.cpp" />
+    <ClCompile Include="Dialog\Dlg_AddRoleInfo.cpp" />
     <ClCompile Include="Dialog\Dlg_AddUser.cpp" />
+    <ClCompile Include="Dialog\Dlg_OrgInfo.cpp" />
+    <ClCompile Include="Dialog\Dlg_RoleInfo.cpp" />
+    <ClCompile Include="Dialog\Dlg_UserInfo.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -275,6 +279,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     </ClCompile>
     <ClCompile Include="Utility\UserManagerRes.cpp" />
     <ClCompile Include="Utility\Utility.cpp" />
+    <ClCompile Include="WzComboBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DQ.User.Manager.def" />
@@ -294,7 +299,11 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClInclude Include="Dialog\DlgSysResEdit.h" />
     <ClInclude Include="Dialog\DlgUserOrg.h" />
     <ClInclude Include="Dialog\Dlg_AddOrg.h" />
+    <ClInclude Include="Dialog\Dlg_AddRoleInfo.h" />
     <ClInclude Include="Dialog\Dlg_AddUser.h" />
+    <ClInclude Include="Dialog\Dlg_OrgInfo.h" />
+    <ClInclude Include="Dialog\Dlg_RoleInfo.h" />
+    <ClInclude Include="Dialog\Dlg_UserInfo.h" />
     <ClInclude Include="DQUserManagerInc.h" />
     <ClInclude Include="Interface\UserManager.h" />
     <ClInclude Include="Layout\ETSLayout.h" />
@@ -305,9 +314,14 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
     <ClInclude Include="UserManagerDefine.h" />
     <ClInclude Include="Utility\UserManagerRes.h" />
     <ClInclude Include="Utility\Utility.h" />
+    <ClInclude Include="WzComboBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DQ.User.Manager.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="res\small3.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

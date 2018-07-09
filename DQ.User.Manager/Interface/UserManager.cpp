@@ -2,9 +2,11 @@
 #include "UserManager.h"
 #include "../Utility/UserManagerRes.h"
 
-#include "../Dialog/DlgUserOrg.h"
+#include "../Dialog/Dlg_UserInfo.h"
+#include "../Dialog/Dlg_OrgInfo.h"
 #include "../Dialog/DlgSysRes.h"
 #include "../Dialog/DlgSysMod.h"
+#include "../Dialog/Dlg_RoleInfo.h"
 
 CDQUserManager* CDQUserManager::m_pInst = nullptr;
 
@@ -31,11 +33,27 @@ CDQUserManager::~CDQUserManager()
 }
 
 //----------------------------
-BOOL CDQUserManager::DoUserOrgSettings()
+BOOL CDQUserManager::DoUserSettings()
 {
 	CUserManagerResLock res(gInst);
 
-	CDlgUserOrg dlg;
+	CDlg_UserInfo dlg;
+	return dlg.DoModal() == IDOK;
+}
+
+BOOL CDQUserManager::DoOrgSettings()
+{
+	CUserManagerResLock res(gInst);
+
+	CDlg_OrgInfo dlg;
+	return dlg.DoModal() == IDOK;
+}
+
+BOOL CDQUserManager::DoRoleSettings()
+{
+	CUserManagerResLock res(gInst);
+
+	CDlg_RoleInfo dlg;
 	return dlg.DoModal() == IDOK;
 }
 
