@@ -4,6 +4,7 @@
 #include "UserManagerDefine.h"
 #include "DataAccess/COrgInfo.h"
 #include "DataAccess/CUserInfo.h"
+#include "DataAccess\CRoleInfo.h"
 #include "DataAccess/SysRes.h"
 #include "DataAccess/SysMod.h"
 #include "DataAccess/UserManagerDataAccess.h"

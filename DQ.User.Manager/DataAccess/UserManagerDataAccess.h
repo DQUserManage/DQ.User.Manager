@@ -78,6 +78,10 @@ public:
 	std::shared_ptr<CDataTableMediator> GetRoleInfo();
 	/** 添加用户角色信息表 */
 	BOOL InsertUserRoleInfo(CString UserID,CString UserRole);
+	/** 添加角色信息 */
+	BOOL InsertRoleInfo(CRoleInfo RoleInfo);
+	/** 添加角色权限表 */
+	BOOL InsertPowerRoleInfo(CRoleInfo RoleInfo, CString RolePower);
 	
 public:  ///<系统资源数据访问
 

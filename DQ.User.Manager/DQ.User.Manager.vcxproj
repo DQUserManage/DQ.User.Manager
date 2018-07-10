@@ -239,6 +239,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
   <ItemGroup>
     <ClCompile Include="Control\CustomControl.cpp" />
     <ClCompile Include="DataAccess\COrgInfo.cpp" />
+    <ClCompile Include="DataAccess\CRoleInfo.cpp" />
     <ClCompile Include="DataAccess\CUserInfo.cpp" />
     <ClCompile Include="DataAccess\SysMod.cpp" />
     <ClCompile Include="DataAccess\SysRes.cpp" />
@@ -290,6 +291,7 @@ echo D | xcopy "$(TargetDir)$(TargetName).lib" "$(SolutionDir)Lib\$(Configuratio
   <ItemGroup>
     <ClInclude Include="Control\CustomControl.h" />
     <ClInclude Include="DataAccess\COrgInfo.h" />
+    <ClInclude Include="DataAccess\CRoleInfo.h" />
     <ClInclude Include="DataAccess\CUserInfo.h" />
     <ClInclude Include="DataAccess\SysMod.h" />
     <ClInclude Include="DataAccess\SysRes.h" />

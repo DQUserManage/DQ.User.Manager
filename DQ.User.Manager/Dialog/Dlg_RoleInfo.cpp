@@ -84,9 +84,41 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 	CDlg_AddRoleInfo dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		//添加权限表数据
+		vector<CString> RolePower = dlg.GetRolePower();
+		CString RoleID = CUserUtility::GenerateUniqueStr(10);
+		CString RoleName = dlg.GetRoleName();
+		CString Description = dlg.GetRoleDescription();
+		CRoleInfo RoleInfo;
+		RoleInfo.SetRoleName(RoleName);
+		RoleInfo.SetRoleID(RoleID);
+		RoleInfo.SetRemark(Description);
+
+		//添加角色表数据
+		BOOL Result = CUserManagerDataService::GetInstance()->InsertRoleInfo(RoleInfo);
 
 		//添加角色--权限 TODO:
+		for (int i = 0; i < RolePower.size(); i++)
+		{
+			Result = CUserManagerDataService::GetInstance()->InsertPowerRoleInfo(RoleInfo, RolePower[i]);
+			if (!Result)
+				break;
+		}
+
+		if (Result)
+		{
+			CBCGPGridRow* pRow;
+			pRow = m_GridCtrl.CreateRow(m_GridCtrl.GetColumnCount());
+
+			/*设置行号*/
+			pRow->ReplaceItem(0, new CBCGPGridCheckItem(FALSE));
+			pRow->GetItem(1)->SetValue((_variant_t)RoleInfo.GetRoleName());
+			pRow->GetItem(2)->SetValue((_variant_t)RoleInfo.GetRemark());
+
+			m_GridCtrl.AddRow(pRow, FALSE);
+			m_GridCtrl.AdjustLayout();
+		}
+		else
+			MessageBox(L"数据不合理，操作失败");
 	}
 }
 

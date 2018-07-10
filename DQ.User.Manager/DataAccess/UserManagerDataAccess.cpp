@@ -320,6 +320,34 @@ BOOL CUserManagerDataService::InsertUserRoleInfo(CString UserID,CString UserRole
 	return TRUE;
 }
 
+BOOL CUserManagerDataService::InsertRoleInfo(CRoleInfo RoleInfo)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("insert into SYS_ROLE(ROLE_ID,ROLE_NAME,DESCRIPTION) values('%s','%s','%s')"), RoleInfo.GetRoleID(), RoleInfo.GetRoleName(), RoleInfo.GetRemark());
+
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
+BOOL CUserManagerDataService::InsertPowerRoleInfo(CRoleInfo RoleInfo, CString RolePower)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("insert into SYS_ROLE_PERMISSION(ROLE_ID,NODE_ID) values('%s','%s')"), RoleInfo.GetRoleID(), RolePower);
+
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
 //---------------------------------------------
 bool CUserManagerDataService::GetSysRes(std::vector<CSysRes>& vRes)
 {
