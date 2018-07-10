@@ -101,7 +101,8 @@ void CDlgSysMod::FillModeTree(HTREEITEM hParent, const CString& csParent)
 
 void CDlgSysMod::OnNMRClickModTree(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	CPoint pt(GetMessagePos());
+	CPoint pt;
+	::GetCursorPos(&pt);
 	ScreenToClient(&pt);
 
 	UINT uFlags = 0;
