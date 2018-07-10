@@ -82,6 +82,14 @@ public:
 	BOOL InsertRoleInfo(CRoleInfo RoleInfo);
 	/** 添加角色权限表 */
 	BOOL InsertPowerRoleInfo(CRoleInfo RoleInfo, CString RolePower);
+	/** 删除角色权限表 */
+	BOOL DelPowerRoleInfo(CRoleInfo RoleInfo);
+	/** 删除角色信息 */
+	BOOL DeleteRoleInfo(CString RoleID);
+	/** 通过角色ID 获取角色信息 */
+	std::shared_ptr<CDataTableMediator> GetRoleInfoUseID(CString RoleID);
+	/** 更新角色信息 */
+	BOOL UpdateRoleInfo(CRoleInfo RoleInfo);
 	
 public:  ///<系统资源数据访问
 
@@ -119,6 +127,12 @@ public:  ///<系统模块数据访问
 
 	/** 获取系统模块基本信息*/
 	bool GetSysModeBasic(CSysMod& mod);
+
+	/** 获取角色对应系统模块信息 */
+	CDataTableMediator* GetSysModeInfoUseRoleId(CString RolD);
+
+	/** 获取模块信息 */
+	CDataTableMediator* GetSysModeInfo(CString ModlD);
 private:
 	CDbUtilityMediator*  m_pDB;  ///<数据访问中介者
 };

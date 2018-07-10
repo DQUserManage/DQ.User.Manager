@@ -30,6 +30,7 @@ void CDlg_RoleInfo::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlg_RoleInfo, CUserDialogBase)
 	ON_BN_CLICKED(IDC_BTN_ADD_ROLE, &CDlg_RoleInfo::OnBnClickedBtnAddRole)
 	ON_BN_CLICKED(IDC_BTN_DEL_ROLE, &CDlg_RoleInfo::OnBnClickedBtnDelRole)
+	ON_BN_CLICKED(IDC_BTN_UPDATE_ROLE_INFO, &CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo)
 END_MESSAGE_MAP()
 
 
@@ -54,8 +55,9 @@ BOOL CDlg_RoleInfo::OnInitDialog()
 	m_GridCtrl.SetScalingRange(0.1, 4.0);
 
 	m_GridCtrl.InsertColumn(0, _T("选择"), globalUtils.ScaleByDPI(40));
-	m_GridCtrl.InsertColumn(1, _T("角色"), globalUtils.ScaleByDPI(100));
-	m_GridCtrl.InsertColumn(2, _T("备注"), globalUtils.ScaleByDPI(100));
+	m_GridCtrl.InsertColumn(1, _T("角色ID"), globalUtils.ScaleByDPI(100));
+	m_GridCtrl.InsertColumn(2, _T("角色"), globalUtils.ScaleByDPI(100));
+	m_GridCtrl.InsertColumn(3, _T("备注"), globalUtils.ScaleByDPI(100));
 
 	//查询数据库获取用户信息
 	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetRoleInfo());
@@ -67,8 +69,9 @@ BOOL CDlg_RoleInfo::OnInitDialog()
 
 		/*设置行号*/
 		pRow->ReplaceItem(0, new CBCGPGridCheckItem(FALSE));
-		pRow->GetItem(1)->SetValue((_variant_t)pTab->GetStringField(i, L"ROLE_NAME"));
-		pRow->GetItem(2)->SetValue((_variant_t)pTab->GetStringField(i, L"DESCRIPTION"));
+		pRow->GetItem(1)->SetValue((_variant_t)pTab->GetStringField(i, L"ROLE_ID"));
+		pRow->GetItem(2)->SetValue((_variant_t)pTab->GetStringField(i, L"ROLE_NAME"));
+		pRow->GetItem(3)->SetValue((_variant_t)pTab->GetStringField(i, L"DESCRIPTION"));
 
 		m_GridCtrl.AddRow(pRow, FALSE);
 	}
@@ -82,6 +85,7 @@ BOOL CDlg_RoleInfo::OnInitDialog()
 void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 {
 	CDlg_AddRoleInfo dlg;
+	dlg.SetOperateType(0);
 	if (dlg.DoModal() == IDOK)
 	{
 		vector<CString> RolePower = dlg.GetRolePower();
@@ -111,8 +115,9 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 
 			/*设置行号*/
 			pRow->ReplaceItem(0, new CBCGPGridCheckItem(FALSE));
-			pRow->GetItem(1)->SetValue((_variant_t)RoleInfo.GetRoleName());
-			pRow->GetItem(2)->SetValue((_variant_t)RoleInfo.GetRemark());
+			pRow->GetItem(1)->SetValue((_variant_t)RoleInfo.GetRoleID());
+			pRow->GetItem(2)->SetValue((_variant_t)RoleInfo.GetRoleName());
+			pRow->GetItem(3)->SetValue((_variant_t)RoleInfo.GetRemark());
 
 			m_GridCtrl.AddRow(pRow, FALSE);
 			m_GridCtrl.AdjustLayout();
@@ -125,5 +130,96 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 
 void CDlg_RoleInfo::OnBnClickedBtnDelRole()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	CString RoleID = L"";
+	CBCGPGridRow* pCurSelRow = m_GridCtrl.GetCurSel();
+	if (pCurSelRow == NULL)
+	{
+		MessageBox(L"删除错误，没有选定删除对象");
+	}
+	else
+	{
+		for (int i = m_GridCtrl.GetRowCount() - 1; i >= 0; i--)
+		{
+			pCurSelRow = m_GridCtrl.GetRow(i);
+			if (((CBCGPGridCheckItem*)pCurSelRow->GetItem(0))->GetState() == 1)
+			{
+				RoleID = m_GridCtrl.GetRow(i)->GetItem(1)->GetValue();
+
+				BOOL Result = CUserManagerDataService::GetInstance()->DeleteRoleInfo(RoleID);
+				if (Result)
+					m_GridCtrl.RemoveRow(i);
+				else
+					MessageBox(L"数据不合理，操作失败");
+			}
+		}
+	}
+}
+
+
+void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
+{
+	CBCGPGridRow* pRow = NULL;
+	CString RoleID = L"";
+	CBCGPGridRow* pCurSelRow = m_GridCtrl.GetCurSel();
+	if (pCurSelRow == NULL)
+	{
+		MessageBox(L"删除错误，没有选定删除对象");
+	}
+	else
+	{
+		for (int i = m_GridCtrl.GetRowCount() - 1; i >= 0; i--)
+		{
+			pCurSelRow = m_GridCtrl.GetRow(i);
+			if (((CBCGPGridCheckItem*)pCurSelRow->GetItem(0))->GetState() == 1)
+			{
+				RoleID = m_GridCtrl.GetRow(i)->GetItem(1)->GetValue();
+				pRow = m_GridCtrl.GetRow(i);
+				break;
+			}
+		}
+	}
+
+	CDlg_AddRoleInfo dlg;
+	dlg.SetOperateType(1);
+	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetRoleInfoUseID(RoleID));
+	dlg.SerRoleID(pTab->GetStringField(0, L"ROLE_ID"));
+	if (dlg.DoModal() == IDOK)
+	{
+		//更新数据
+		vector<CString> RolePower = dlg.GetRolePower();
+		CString RoleID = dlg.GetRoleID();
+		CString RoleName = dlg.GetRoleName();
+		CString Description = dlg.GetRoleDescription();
+		CRoleInfo RoleInfo;
+		RoleInfo.SetRoleName(RoleName);
+		RoleInfo.SetRoleID(RoleID);
+		RoleInfo.SetRemark(Description);
+
+		//更新角色信息
+		BOOL Result = CUserManagerDataService::GetInstance()->UpdateRoleInfo(RoleInfo);
+
+		//更新角色--权限 用户角色:
+		for (int i = 0; i < RolePower.size(); i++)
+		{
+			//先删除后更新
+			Result = CUserManagerDataService::GetInstance()->DelPowerRoleInfo(RoleInfo);
+			Result = CUserManagerDataService::GetInstance()->InsertPowerRoleInfo(RoleInfo, RolePower[i]);
+			if (!Result)
+				break;
+		}
+
+		if (Result)
+		{
+			/*设置行号*/
+			pRow->ReplaceItem(0, new CBCGPGridCheckItem(TRUE));
+			pRow->GetItem(1)->SetValue((_variant_t)RoleInfo.GetRoleID());
+			pRow->GetItem(2)->SetValue((_variant_t)RoleInfo.GetRoleName());
+			pRow->GetItem(3)->SetValue((_variant_t)RoleInfo.GetRemark());
+
+			m_GridCtrl.AdjustLayout();
+		}
+		else
+			MessageBox(L"数据不合理，操作失败");
+
+	}
 }

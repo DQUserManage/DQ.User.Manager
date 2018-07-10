@@ -94,7 +94,7 @@ BOOL CDQUserTestDlg::OnInitDialog()
 	{
 		BOOL bNameValid;
 		CString strAboutMenu;
-		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
+		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);		
 		ASSERT(bNameValid);
 		if (!strAboutMenu.IsEmpty())
 		{

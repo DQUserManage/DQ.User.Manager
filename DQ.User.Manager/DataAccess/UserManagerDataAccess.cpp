@@ -306,6 +306,36 @@ std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetRoleInfo()
 	return pTab;
 }
 
+std::shared_ptr<CDataTableMediator> CUserManagerDataService::GetRoleInfoUseID(CString RoleID)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("select t.*, t.rowid from SYS_ROLE t where ROLE_ID='%s'"), RoleID);
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteTable(sSql));
+	if (!pTab)
+		return NULL;
+
+	return pTab;
+}
+
+BOOL CUserManagerDataService::UpdateRoleInfo(CRoleInfo RoleInfo)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	//更新角色信息
+	sSql.Format(_T("update SYS_ROLE set ROLE_ID='%s', ROLE_NAME='%s', DESCRIPTION='%s' where ROLE_ID='%s'"),
+		RoleInfo.GetRoleID(), RoleInfo.GetRoleName(), RoleInfo.GetRemark(), RoleInfo.GetRoleID());
+	m_pDB->ExecuteQuery(sSql);
+
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
 BOOL CUserManagerDataService::InsertUserRoleInfo(CString UserID,CString UserRole)
 {
 	ASSERT(m_pDB != NULL);
@@ -334,6 +364,18 @@ BOOL CUserManagerDataService::InsertRoleInfo(CRoleInfo RoleInfo)
 	return TRUE;
 }
 
+BOOL CUserManagerDataService::DelPowerRoleInfo(CRoleInfo RoleInfo)
+{
+	CString sSql = L"";
+	// 删除角色所有与权限的对应
+	sSql.Format(L"delete from SYS_ROLE_PERMISSION where ROLE_ID='%s'", RoleInfo.GetRoleID());
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
 BOOL CUserManagerDataService::InsertPowerRoleInfo(CRoleInfo RoleInfo, CString RolePower)
 {
 	ASSERT(m_pDB != NULL);
@@ -342,6 +384,49 @@ BOOL CUserManagerDataService::InsertPowerRoleInfo(CRoleInfo RoleInfo, CString Ro
 	sSql.Format(_T("insert into SYS_ROLE_PERMISSION(ROLE_ID,NODE_ID) values('%s','%s')"), RoleInfo.GetRoleID(), RolePower);
 
 	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
+BOOL CUserManagerDataService::DeleteRoleInfo(CString RoleID)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	int count;
+	//查看是否有其他表用到了用户ID
+	//1.用户角色对应表
+	sSql.Format(_T("select * from SYS_USER_ROLE where ROLE_ID = '%s'"), RoleID);
+	std::shared_ptr<CDataTableMediator> pTab(m_pDB->ExecuteTable(sSql));
+	if (!pTab)
+	{
+		//Do Nothing
+	}
+	else
+	{
+		//存在数据 删除用户角色表中对应的用户ID数据
+		sSql.Format(_T("delete from SYS_USER_ROLE where ROLE_ID = '%s'"), RoleID);
+		m_pDB->ExecuteQuery(sSql);
+	}
+
+	//2.角色权限对应表
+	sSql.Format(_T("select * from SYS_ROLE_PERMISSION where ROLE_ID = '%s'"), RoleID);
+	std::shared_ptr<CDataTableMediator> pTable (m_pDB->ExecuteTable(sSql));
+	if (!pTable)
+	{
+		//Do Nothing
+	}
+	else
+	{
+		//存在数据 删除用户角色表中对应的用户ID数据
+		sSql.Format(_T("delete from SYS_ROLE_PERMISSION where ROLE_ID = '%s'"), RoleID);
+		m_pDB->ExecuteQuery(sSql);
+	}
+
+	sSql.Format(_T("delete from SYS_ROLE where ROLE_ID = '%s'"), RoleID);
+	count = m_pDB->ExecuteQuery(sSql);
 	if (count == -1)
 		return FALSE;
 
@@ -564,4 +649,30 @@ bool CUserManagerDataService::GetSysModeBasic(CSysMod& mod)
 	}
 
 	return false;
+}
+
+CDataTableMediator* CUserManagerDataService::GetSysModeInfoUseRoleId(CString RolD)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("select DISTINCT NODE_ID, RES_NAME, PARENT_ID, RES_TYPE from SYS_MODULE start with  NODE_ID in (SELECT NODE_ID FROM SYS_ROLE_PERMISSION where ROLE_ID='%s') connect by NODE_ID = prior PARENT_ID order by PARENT_ID"), RolD);
+	CDataTableMediator* pTab = m_pDB->ExecuteTable(sSql);
+	if (!pTab)
+		return NULL;
+
+	return pTab;
+}
+
+CDataTableMediator* CUserManagerDataService::GetSysModeInfo(CString ModlD)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("select t.*, t.rowid from SYS_MODULE t where NODE_ID='%s'"), ModlD);
+	CDataTableMediator* pTab = m_pDB->ExecuteTable(sSql);
+	if (!pTab)
+		return NULL;
+
+	return pTab;
 }

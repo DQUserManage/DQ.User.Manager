@@ -28,4 +28,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedBtnAddRole();
 	afx_msg void OnBnClickedBtnDelRole();
+	afx_msg void OnBnClickedBtnUpdateRoleInfo();
 };
