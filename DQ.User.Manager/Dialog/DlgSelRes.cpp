@@ -117,6 +117,13 @@ LRESULT CDlgSelRes::OnDblClk(WPARAM wParam, LPARAM lParam)
 	if (!pItem)
 		return 0L;
 
+	CBCGPGridRow* pRow = pItem->GetParentRow();
+
+	m_csResID = (LPCTSTR)(_bstr_t)pRow->GetItem(0)->GetValue();
+	m_csResName = (LPCTSTR)(_bstr_t)pRow->GetItem(1)->GetValue();
+
+	OnOK();
+
 	return 1L;
 }
 

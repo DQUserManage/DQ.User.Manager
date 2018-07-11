@@ -19,7 +19,10 @@ protected:
 	afx_msg void OnBnClickedBtnEdit();
 	afx_msg void OnBnClickedBtnDel();
 	afx_msg void OnBnClickedBtnDelall();
+	afx_msg void OnBnClickedBtnAll();
+	afx_msg void OnBnClickedBtnRevert();
 	virtual BOOL OnInitDialog();
+	LRESULT afx_msg OnDblClk(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 public:
@@ -29,6 +32,8 @@ public:
 	BOOL InitControl();
 	/** 初始化系统资源 */
 	BOOL InitSysRes();
+	/** 编辑系统资源*/
+	void EditSysRes(CBCGPGridRow* pRow);
 public:
 	CBCGPGridCtrl  m_wndRes; ///<系统资源列表
 };
