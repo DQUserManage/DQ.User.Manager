@@ -134,7 +134,7 @@ void CDlg_UserInfo::OnBnClickedBtnAddUser()
 		BOOL Result = CUserManagerDataService::GetInstance()->InsertUserInfo(UserInfo);
 
 		///添加用户--角色表数据:
-		BOOL ResultRole;
+		BOOL ResultRole = TRUE;
 		vector<CString> UserRole = dlg.GetUserRoleId();
 		for (int i = 0; i < UserRole.size(); i++)
 		{
