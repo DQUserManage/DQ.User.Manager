@@ -27,6 +27,10 @@ BEGIN_MESSAGE_MAP(CDlgSysRes, CUserDialogBase)
 	ON_BN_CLICKED(IDC_BTN_EDIT, &CDlgSysRes::OnBnClickedBtnEdit)
 	ON_BN_CLICKED(IDC_BTN_DEL, &CDlgSysRes::OnBnClickedBtnDel)
 	ON_BN_CLICKED(IDC_BTN_DELALL, &CDlgSysRes::OnBnClickedBtnDelall)
+	ON_BN_CLICKED(IDC_BTN_ALL, &CDlgSysRes::OnBnClickedBtnAll)
+	ON_BN_CLICKED(IDC_BTN_REVERT, &CDlgSysRes::OnBnClickedBtnRevert)
+	//
+	ON_REGISTERED_MESSAGE(BCGM_GRID_ITEM_DBLCLICK,OnDblClk)
 END_MESSAGE_MAP()
 
 
@@ -48,6 +52,8 @@ void CDlgSysRes::InitLayout()
 	CPane layout = pane(VERTICAL)
 		<< item(&m_wndRes)
 		<< (pane(HORIZONTAL)
+		<< item(IDC_BTN_ALL, NORESIZE)
+		<< item(IDC_BTN_REVERT, NORESIZE)
 		<< itemGrowing(HORIZONTAL)
 		<< item(IDC_BTN_ADD, NORESIZE)
 		<< item(IDC_BTN_EDIT, NORESIZE)
@@ -64,12 +70,13 @@ BOOL CDlgSysRes::InitControl()
 		return FALSE;
 
 	m_wndRes.InsertColumn(0, _T("资源ID"), 80);
-	m_wndRes.InsertColumn(1, _T("资源名称"), 80);
-	m_wndRes.InsertColumn(2, _T("资源分类"), 80);
-	m_wndRes.InsertColumn(3, _T("内容类型"), 80);
-	m_wndRes.InsertColumn(4, _T("文件名"), 80);
-	m_wndRes.InsertColumn(5, _T("作者"), 80);
-	m_wndRes.InsertColumn(6, _T("版本"), 80);
+	m_wndRes.InsertColumn(1, _T("选择"), 50);
+	m_wndRes.InsertColumn(2, _T("资源名称"), 80);
+	m_wndRes.InsertColumn(3, _T("资源分类"), 80);
+	m_wndRes.InsertColumn(4, _T("内容类型"), 80);
+	m_wndRes.InsertColumn(5, _T("文件名"), 80);
+	m_wndRes.InsertColumn(6, _T("作者"), 80);
+	m_wndRes.InsertColumn(7, _T("版本"), 80);
 	//
 	m_wndRes.EnableColumnAutoSize();
 	m_wndRes.EnableRowHeader();
@@ -77,7 +84,6 @@ BOOL CDlgSysRes::InitControl()
 	m_wndRes.SetWholeRowSel();
 	m_wndRes.SetScrollBarsStyle(CBCGPScrollBar::BCGP_SBSTYLE_VISUAL_MANAGER);
 	m_wndRes.EnableHeader(TRUE, 0);
-	m_wndRes.SetReadOnly();
 
 	for (int i = 0; i < m_wndRes.GetColumnCount(); ++i)
 		m_wndRes.SetHeaderAlign(i, HDF_CENTER);
@@ -100,12 +106,19 @@ BOOL CDlgSysRes::InitSysRes()
 		CBCGPGridRow* pRow = m_wndRes.CreateRow(m_wndRes.GetColumnCount());
 
 		pRow->GetItem(0)->SetValue((LPCTSTR)res.m_csResID);
-		pRow->GetItem(1)->SetValue((LPCTSTR)res.m_csName);
-		pRow->GetItem(2)->SetValue((LPCTSTR)res.m_csResClass);
-		pRow->GetItem(3)->SetValue((LPCTSTR)res.m_csContentType);
-		pRow->GetItem(4)->SetValue((LPCTSTR)res.m_csFileName);
-		pRow->GetItem(5)->SetValue((LPCTSTR)res.m_csAuthor);
-		pRow->GetItem(6)->SetValue((LPCTSTR)res.m_csVersion);
+		pRow->ReplaceItem(1, new CBCGPGridCheckItem(false));
+		pRow->GetItem(2)->SetValue((LPCTSTR)res.m_csName);
+		pRow->GetItem(3)->SetValue((LPCTSTR)res.m_csResClass);
+		pRow->GetItem(4)->SetValue((LPCTSTR)res.m_csContentType);
+		pRow->GetItem(5)->SetValue((LPCTSTR)res.m_csFileName);
+		pRow->GetItem(6)->SetValue((LPCTSTR)res.m_csAuthor);
+		pRow->GetItem(7)->SetValue((LPCTSTR)res.m_csVersion);
+
+		for (int j = 2;j <= 7;j++)
+		{
+			pRow->GetItem(j)->AllowEdit(FALSE);
+			pRow->GetItem(j)->SetReadOnly(TRUE);
+		}
 
 		m_wndRes.AddRow(pRow, FALSE);
 	}
@@ -126,6 +139,18 @@ void CDlgSysRes::OnBnClickedBtnAdd()
 	InitSysRes();
 }
 
+LRESULT CDlgSysRes::OnDblClk(WPARAM wParam, LPARAM lParam)
+{
+	CBCGPGridItem* pItem = (CBCGPGridItem*)(lParam);
+
+	if (!pItem)
+		return 0L;
+
+	CBCGPGridRow* pRow = pItem->GetParentRow();
+	EditSysRes(pRow);
+
+	return 1L;
+}
 
 void CDlgSysRes::OnBnClickedBtnEdit()
 {
@@ -133,6 +158,11 @@ void CDlgSysRes::OnBnClickedBtnEdit()
 	if (!pRow)
 		return;
 
+	EditSysRes(pRow);
+}
+
+void CDlgSysRes::EditSysRes(CBCGPGridRow* pRow)
+{
 	CSysRes sysRes;
 	sysRes.m_csResID = (LPCTSTR)(_bstr_t)pRow->GetItem(0)->GetValue();
 	if (!CUserManagerDataService::GetInstance()->GetSysResBasic(sysRes))
@@ -143,7 +173,7 @@ void CDlgSysRes::OnBnClickedBtnEdit()
 
 	CUserManagerResLock res(gInst);
 
-	CDlgSysResEdit dlg(sysRes,true);
+	CDlgSysResEdit dlg(sysRes, true);
 	if (dlg.DoModal() != IDOK)
 		return;
 
@@ -174,4 +204,25 @@ void CDlgSysRes::OnBnClickedBtnDelall()
 	CUserManagerDataService::GetInstance()->DeleteAllSysRes();
 
 	m_wndRes.RemoveAll();
+}
+
+void CDlgSysRes::OnBnClickedBtnAll()
+{
+	for (int i = 0;i < m_wndRes.GetRowCount(); i++)
+	{
+		CBCGPGridRow* pRow = m_wndRes.GetRow(i);
+		((CBCGPGridCheckItem*)(pRow->GetItem(1)))->SetValue(true);
+	}
+}
+
+
+void CDlgSysRes::OnBnClickedBtnRevert()
+{
+	for (int i = 0;i < m_wndRes.GetRowCount(); i++)
+	{
+		CBCGPGridRow* pRow = m_wndRes.GetRow(i);
+		
+		bool bVal = ((CBCGPGridCheckItem*)(pRow->GetItem(1)))->GetValue();
+		((CBCGPGridCheckItem*)(pRow->GetItem(1)))->SetValue(!bVal);
+	}
 }
