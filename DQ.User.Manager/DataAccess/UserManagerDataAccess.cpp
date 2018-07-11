@@ -336,6 +336,33 @@ BOOL CUserManagerDataService::UpdateRoleInfo(CRoleInfo RoleInfo)
 	return TRUE;
 }
 
+BOOL CUserManagerDataService::DelUserRoleInfo(CString UserID)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("delete from SYS_USER_ROLE where USER_ID='%s'"), UserID);
+
+	int count = m_pDB->ExecuteQuery(sSql);
+	if (count == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
+CDataTableMediator* CUserManagerDataService::GetUserRoleInfo(CString UserID)
+{
+	ASSERT(m_pDB != NULL);
+
+	CString sSql = L"";
+	sSql.Format(_T("select t.*, t.rowid from SYS_USER_ROLE t where USER_ID='%s'"), UserID);
+	CDataTableMediator* pTab = m_pDB->ExecuteTable(sSql);
+	if (!pTab)
+		return NULL;
+
+	return pTab;
+}
+
 BOOL CUserManagerDataService::InsertUserRoleInfo(CString UserID,CString UserRole)
 {
 	ASSERT(m_pDB != NULL);

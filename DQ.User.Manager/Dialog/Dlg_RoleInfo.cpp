@@ -120,18 +120,21 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 
 		CRoleInfo RoleInfo = dlg.GetRoleInfo();
 
+		RoleInfo.SetRoleID(RoleID);
+
 		//添加角色表数据
 		BOOL Result = CUserManagerDataService::GetInstance()->InsertRoleInfo(RoleInfo);
 
+		BOOL ResultPower = TRUE;
 		//添加角色--权限 TODO:
 		for (int i = 0; i < RolePower.size(); i++)
 		{
-			Result = CUserManagerDataService::GetInstance()->InsertPowerRoleInfo(RoleInfo, RolePower[i]);
-			if (!Result)
+			ResultPower = CUserManagerDataService::GetInstance()->InsertPowerRoleInfo(RoleInfo, RolePower[i]);
+			if (!ResultPower)
 				break;
 		}
 
-		if (Result)
+		if (Result && ResultPower)
 		{
 			CBCGPGridRow* pRow;
 			pRow = m_GridCtrl.CreateRow(m_GridCtrl.GetColumnCount());

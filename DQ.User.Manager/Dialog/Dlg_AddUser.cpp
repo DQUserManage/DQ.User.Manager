@@ -51,6 +51,7 @@ BOOL CDlg_AddUser::OnInitDialog()
 	CUserDialogModelBase::OnInitDialog();
 
 	m_lUserRole.SetCheckStyle(BS_AUTOCHECKBOX);
+
 	///初始化下拉框树
 	InitTreeComboBox(m_OrgInfo);
 
@@ -83,6 +84,21 @@ BOOL CDlg_AddUser::OnInitDialog()
 		m_eUserQQ.SetWindowText(m_UserInfo.GetUserQQ());
 		m_eUserMsn.SetWindowText(m_UserInfo.GetUserMSN());
 		m_eUserDescription.SetWindowText(m_UserInfo.GetDescription());
+
+		//初始化选中ListBox
+		CString RoleId;
+		for (int i = 0;i < m_lUserRole.GetCount();i++)
+		{
+			ROLEITEMDATA pData = new DATA;
+			pData = (ROLEITEMDATA)m_lUserRole.GetItemData(i);
+
+			for(int j = 0; j< m_UserRole.size();j++)
+				if (pData->RoleID == m_UserRole[j])
+				{
+					m_lUserRole.SetCheck(i,TRUE);
+					break;
+				}
+		}
 	}
 
 	UpdateData(FALSE);
@@ -170,6 +186,7 @@ void CDlg_AddUser::OnBnClickedOk()
 {
 	UpdateData(TRUE);
 
+	m_UserRole.clear();
 	ROLEITEMDATA UserRole;
 	//获取选中的角色ID
 	for (int i = 0;i < m_lUserRole.GetCount();i++)
