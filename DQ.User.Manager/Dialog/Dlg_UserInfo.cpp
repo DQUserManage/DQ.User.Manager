@@ -182,6 +182,11 @@ void CDlg_UserInfo::OnBnClickedBtnUpdateUser()
 			}
 		}
 	}
+	if (pRow == NULL)
+	{
+		MessageBox(_T("请选择一条数据"));
+		return;
+	}
 
 	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetUserInfoUserUserID(UserID));
 	if (pTab)

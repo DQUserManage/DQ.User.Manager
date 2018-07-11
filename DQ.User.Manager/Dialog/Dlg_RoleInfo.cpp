@@ -179,6 +179,12 @@ void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
 		}
 	}
 
+	if (pRow == NULL)
+	{
+		MessageBox(_T("请选择一条数据"));
+		return;
+	}
+
 	CDlg_AddRoleInfo dlg;
 	dlg.SetOperateType(1);
 	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetRoleInfoUseID(RoleID));

@@ -57,6 +57,8 @@ BOOL CDlg_AddRoleInfo::OnInitDialog()
 	//修改角色信息时 初始化选中
 	if (m_OperateType == 1)
 	{
+		this->SetWindowText(_T("修改角色信息"));
+
 		//查询角色对应模块
 		std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetSysModeInfoUseRoleId(m_RoleID));
 
@@ -69,6 +71,8 @@ BOOL CDlg_AddRoleInfo::OnInitDialog()
 			SetTreeNodeSel(pTab.get(), L"", hParent);
 		}
 	}
+	else
+		this->SetWindowText(_T("添加角色信息"));
 
 	return TRUE;
 }
