@@ -50,6 +50,7 @@ private:
 	CString					m_OrgName;				///<²¿ÃÅÃû³Æ
 	vector<CString>			m_UserRole;
 public:
+	void SetUserRoleInfo(vector<CString> UserRole) { m_UserRole = UserRole; }
 	void SetUserID(CString UserId) { m_UserID = UserId; };
 	void SetOrgInfo(CDataTableMediator* OrgInfo) { m_OrgInfo = OrgInfo; }
 	void SetUserInfo(CUserInfo UserInfo) { m_UserInfo = UserInfo; }

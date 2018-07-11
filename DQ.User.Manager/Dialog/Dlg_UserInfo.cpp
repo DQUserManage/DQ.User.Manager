@@ -262,12 +262,32 @@ void CDlg_UserInfo::EditInfo(CBCGPGridRow* pRow)
 	std::shared_ptr<CDataTableMediator> pTabOrg(CUserManagerDataService::GetInstance()->GetOrgInfoUseOrgID(UserInfo.GetOrgID()));
 	dlg.SetOrgName(pTabOrg->GetStringField(0, L"ORG_NAME"));
 
+	std::shared_ptr<CDataTableMediator> pTabUserRole(CUserManagerDataService::GetInstance()->GetUserRoleInfo(UserInfo.GetUserID()));
+	vector<CString> UserRoleInfo;
+	for (int i = 0; i < pTabUserRole->GetRowCount();i++)
+	{
+		UserRoleInfo.push_back(pTabUserRole->GetStringField(i, L"ROLE_ID"));
+	}
+
+	dlg.SetUserRoleInfo(UserRoleInfo);
+
 	if (dlg.DoModal() == IDOK)
 	{
 		CUserInfo UserInfo = dlg.GetUserInfo();
 
 		///更新用户信息
 		BOOL Result = CUserManagerDataService::GetInstance()->UpdateUserInfo(UserInfo);
+
+		///更新用户角色信息 先删除-在添加
+		CUserManagerDataService::GetInstance()->DelUserRoleInfo(UserInfo.GetUserID());
+		BOOL ResultRole = TRUE;
+		vector<CString> UserRole = dlg.GetUserRoleId();
+		for (int i = 0; i < UserRole.size(); i++)
+		{
+			ResultRole = CUserManagerDataService::GetInstance()->InsertUserRoleInfo(UserInfo.GetUserID(), UserRole[i]);
+			if (!ResultRole)
+				break;
+		}
 
 		if (Result)
 		{

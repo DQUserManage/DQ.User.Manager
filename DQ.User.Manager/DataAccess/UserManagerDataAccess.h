@@ -76,8 +76,12 @@ public:
 public:
 	/** 获取角色信息 */
 	std::shared_ptr<CDataTableMediator> GetRoleInfo();
+	/** 删除用户角色信息表 */
+	BOOL DelUserRoleInfo(CString UserID);
 	/** 添加用户角色信息表 */
 	BOOL InsertUserRoleInfo(CString UserID,CString UserRole);
+	/** 获取用户--角色信息表 */
+	CDataTableMediator* GetUserRoleInfo(CString UserID);
 	/** 添加角色信息 */
 	BOOL InsertRoleInfo(CRoleInfo RoleInfo);
 	/** 添加角色权限表 */
