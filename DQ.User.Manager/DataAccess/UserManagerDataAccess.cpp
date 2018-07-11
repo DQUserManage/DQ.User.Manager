@@ -482,6 +482,11 @@ bool CUserManagerDataService::DelSysRes(const CString& csResID)
 
 }
 
+bool CUserManagerDataService::DelSysRes(CStringArray& vSQL)
+{
+	return m_pDB->ExecuteQuery(&vSQL) > 0;
+}
+
 bool CUserManagerDataService::AddSysRes(const CSysRes& res)
 {
 	CString csSQL;

@@ -101,6 +101,7 @@ public:  ///<系统资源数据访问
 
 	/** 删除特定系统资源信息*/
 	bool DelSysRes(const CString& csResID);
+	bool DelSysRes(CStringArray& vSQL);
 
 	/** 新增系统资源*/
 	bool AddSysRes(const CSysRes& res);

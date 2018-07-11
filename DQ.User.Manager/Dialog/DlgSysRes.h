@@ -34,6 +34,8 @@ public:
 	BOOL InitSysRes();
 	/** 编辑系统资源*/
 	void EditSysRes(CBCGPGridRow* pRow);
+	/** 删除系统资源*/
+	void DelSysRes(CBCGPGridRow* pRow);
 public:
 	CBCGPGridCtrl  m_wndRes; ///<系统资源列表
 };

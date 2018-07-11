@@ -180,21 +180,63 @@ void CDlgSysRes::EditSysRes(CBCGPGridRow* pRow)
 	InitSysRes();
 }
 
+void CDlgSysRes::DelSysRes(CBCGPGridRow* pRow)
+{
+	for (int i = 0;i < m_wndRes.GetRowCount();i++)
+	{
+		CBCGPGridRow* pItem = m_wndRes.GetRow(i);
+		if (pItem == pRow)
+		{
+			m_wndRes.RemoveRow(pRow->GetRowId());
+			m_wndRes.AdjustLayout();
+			return;
+		}
+	}
+}
 
 void CDlgSysRes::OnBnClickedBtnDel()
 {
-	CBCGPGridRow* pRow = m_wndRes.GetCurSel();
-	if (!pRow)
-		return;
-	if (CUserUtility::ShowMessageBox(_T("确定要删除此系统资源吗?"), MB_YESNO) == IDNO)
-		return;
+	vector<CBCGPGridRow*> vRows;
+	for (int i = 0;i < m_wndRes.GetRowCount();i++)
+	{
+		CBCGPGridRow* pRow = m_wndRes.GetRow(i);
 
-	CString csResID(pRow->GetItem(0)->GetValue());
-	CUserManagerDataService::GetInstance()->DelSysRes(csResID);
-	m_wndRes.RemoveRow(pRow->GetRowId());
-	m_wndRes.AdjustLayout();
+		if (((CBCGPGridCheckItem*)(pRow->GetItem(1)))->GetValue())
+			vRows.push_back(pRow);
+	}
+
+	if (vRows.size() == 0)
+	{
+		CUserUtility::ShowMessageBox(_T("请先选择要删除的内容!"));
+		return;
+	}
+	else
+	{
+		if (CUserUtility::ShowMessageBox(_T("确定要删除系统资源吗?"), MB_YESNO) == IDNO)
+			return;
+	}
+
+	CStringArray vSQL;
+	for (size_t i = 0;i < vRows.size();i++)
+	{
+		CBCGPGridRow* pRow = vRows[i];
+
+		CString csResID(pRow->GetItem(0)->GetValue());
+
+		CString csSQL;
+		csSQL.Format(_T("DELETE FROM SYS_RESOURCE WHERE RES_ID = '%s'"), csResID);
+		vSQL.Add(csSQL);
+	}
+
+	if (CUserManagerDataService::GetInstance()->DelSysRes(vSQL))
+	{
+		for (size_t i = 0;i < vRows.size();i++)
+		{
+			CBCGPGridRow* pRow = vRows[i];
+			DelSysRes(pRow);
+		}
+	}
 }
-
 
 void CDlgSysRes::OnBnClickedBtnDelall()
 {
@@ -214,7 +256,6 @@ void CDlgSysRes::OnBnClickedBtnAll()
 		((CBCGPGridCheckItem*)(pRow->GetItem(1)))->SetValue(true);
 	}
 }
-
 
 void CDlgSysRes::OnBnClickedBtnRevert()
 {
