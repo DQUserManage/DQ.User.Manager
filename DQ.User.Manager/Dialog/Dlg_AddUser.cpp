@@ -8,10 +8,10 @@
 
 // CDlg_AddUser 对话框
 
-IMPLEMENT_DYNAMIC(CDlg_AddUser, CUserDialogBase)
+IMPLEMENT_DYNAMIC(CDlg_AddUser, CUserDialogModelBase)
 
 CDlg_AddUser::CDlg_AddUser(CWnd* pParent /*=NULL*/)
-	: CUserDialogBase(IDD_DLG_ADD_USER, pParent), m_rSexSelect(0)
+	: CUserDialogModelBase(IDD_DLG_ADD_USER, pParent), m_rSexSelect(0)
 {
 	m_UserID = _T("");
 	m_OperatorType = -1;
@@ -23,7 +23,7 @@ CDlg_AddUser::~CDlg_AddUser()
 
 void CDlg_AddUser::DoDataExchange(CDataExchange* pDX)
 {
-	CUserDialogBase::DoDataExchange(pDX);
+	CUserDialogModelBase::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_USER_ROLE, m_lUserRole);
 	DDX_Radio(pDX, IDC_RADIO_USER_SEX_MAN, m_rSexSelect);
 	DDX_Control(pDX, IDC_COMBO_ORG_NAME, m_cOrgName);
@@ -40,7 +40,7 @@ void CDlg_AddUser::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDlg_AddUser, CUserDialogBase)
+BEGIN_MESSAGE_MAP(CDlg_AddUser, CUserDialogModelBase)
 	ON_BN_CLICKED(IDOK, &CDlg_AddUser::OnBnClickedOk)
 END_MESSAGE_MAP()
 
@@ -48,7 +48,7 @@ END_MESSAGE_MAP()
 // CDlg_AddUser 消息处理程序
 BOOL CDlg_AddUser::OnInitDialog()
 {
-	CUserDialogBase::OnInitDialog();
+	CUserDialogModelBase::OnInitDialog();
 
 	m_lUserRole.SetCheckStyle(BS_AUTOCHECKBOX);
 	///初始化下拉框树
@@ -200,6 +200,9 @@ void CDlg_AddUser::OnBnClickedOk()
 
 	LPITEMDATA OrgInfo = (LPITEMDATA)m_cOrgName.GetItemData(m_cOrgName.GetCurSel());
 	m_UserInfo.SetOrgID(OrgInfo->NodeID);
+	CString OrgName;
+	m_cOrgName.GetLBText(m_cOrgName.GetCurSel(),OrgName);
+	m_UserInfo.SetOrgName(OrgName);
 	m_UserInfo.SetDescription(eUserDescription);
 	m_UserInfo.SetUserEmail(eUserEmail);
 	m_UserInfo.SetUserFax(eUserFax);
@@ -212,5 +215,5 @@ void CDlg_AddUser::OnBnClickedOk()
 	m_UserInfo.SetUserSex(eUserSex);
 	m_UserInfo.SetUserTelephone(eUserTelephone);
 
-	CUserDialogBase::OnOK();
+	CUserDialogModelBase::OnOK();
 }

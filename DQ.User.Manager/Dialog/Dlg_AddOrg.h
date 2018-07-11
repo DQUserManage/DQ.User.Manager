@@ -1,6 +1,6 @@
 #pragma once
 
-class CDlg_AddOrg : public CUserDialogBase
+class CDlg_AddOrg : public CUserDialogModelBase
 {
 	DECLARE_DYNAMIC(CDlg_AddOrg)
 
@@ -26,7 +26,7 @@ private:
 
 public:
 	virtual BOOL OnInitDialog();
-
+	void InitLayout();
 private:
 	CEdit		m_OrgName;
 	CEdit		m_ShortName;

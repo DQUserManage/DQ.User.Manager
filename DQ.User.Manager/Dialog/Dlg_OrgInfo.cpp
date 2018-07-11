@@ -60,10 +60,18 @@ BOOL CDlg_OrgInfo::OnInitDialog()
 	//根据树控件部门的选择情况显示部门人员
 	ShowBranchUser();
 
+	InitLayout();
+
 	return TRUE;
 }
 
+void CDlg_OrgInfo::InitLayout()
+{
+	CPane layout = pane(VERTICAL)
+		<< item(&m_tOrgTree);
 
+	UpdateLayout(layout);
+}
 
 void CDlg_OrgInfo::FillBranchTree(CDataTableMediator* pTable, CString sParentID, HTREEITEM hRoot)
 {

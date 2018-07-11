@@ -23,10 +23,15 @@ protected:
 
 private:
 	CBCGPGridCtrl					m_GridCtrl;				///<定义Grid控件变量
-
 public:
 	virtual BOOL OnInitDialog();
+	void InitLayout();
+	void EditInfo(CBCGPGridRow* pRow);
+public:
 	afx_msg void OnBnClickedBtnAddRole();
 	afx_msg void OnBnClickedBtnDelRole();
 	afx_msg void OnBnClickedBtnUpdateRoleInfo();
+	afx_msg void OnBnClickedBtnRoleAllSelect();
+	afx_msg void OnBnClickedBtnRoleRevert();
+	LRESULT OnDblClk(WPARAM wParam, LPARAM lParam);
 };

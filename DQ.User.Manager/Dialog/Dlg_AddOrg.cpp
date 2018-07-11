@@ -8,10 +8,10 @@
 
 // CDlg_AddOrg 对话框
 
-IMPLEMENT_DYNAMIC(CDlg_AddOrg, CUserDialogBase)
+IMPLEMENT_DYNAMIC(CDlg_AddOrg, CUserDialogModelBase)
 
 CDlg_AddOrg::CDlg_AddOrg(CWnd* pParent /*=NULL*/)
-	: CUserDialogBase(IDD_DLG_ADD_ORG, pParent)
+	: CUserDialogModelBase(IDD_DLG_ADD_ORG, pParent)
 {
 	m_OperateType = -1;
 }
@@ -22,7 +22,7 @@ CDlg_AddOrg::~CDlg_AddOrg()
 
 void CDlg_AddOrg::DoDataExchange(CDataExchange* pDX)
 {
-	CUserDialogBase::DoDataExchange(pDX);
+	CUserDialogModelBase::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT_ORG_NAME, m_OrgName);
 	DDX_Control(pDX, IDC_EDIT_SHORT_NAME, m_ShortName);
 	DDX_Control(pDX, IDC_CMB_ORG_LEVEL, m_Level);
@@ -31,7 +31,7 @@ void CDlg_AddOrg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDlg_AddOrg, CUserDialogBase)
+BEGIN_MESSAGE_MAP(CDlg_AddOrg, CUserDialogModelBase)
 	ON_BN_CLICKED(IDOK, &CDlg_AddOrg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
@@ -39,8 +39,9 @@ END_MESSAGE_MAP()
 // CDlg_AddOrg 消息处理程序
 BOOL CDlg_AddOrg::OnInitDialog()
 {
-	CUserDialogBase::OnInitDialog();
+	CUserDialogModelBase::OnInitDialog();
 
+	InitLayout();
 	//初始化级别下拉框
 	m_Level.AddString(L"");
 	m_Level.AddString(L"10");
@@ -68,6 +69,43 @@ BOOL CDlg_AddOrg::OnInitDialog()
 }
 
 
+void CDlg_AddOrg::InitLayout()
+{
+	/*CPane layout = pane(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_STATIC_ORG_NAME, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_EDIT_ORG_NAME, NORESIZE))
+		<< itemGrowing(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_STATIC_ORG_SHORT_NAME, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_EDIT_SHORT_NAME, NORESIZE))
+		<< itemGrowing(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_STATIC_ORG_LEVEL, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_CMB_ORG_LEVEL, NORESIZE))
+		<< itemGrowing(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_STATIC_ORG_LEADER, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_EDIT_ORG_LEADER, NORESIZE))
+		<< itemGrowing(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_STATIC_ORG_DESCRIPTION, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_EDIT_ORG_DESCRIPTION, NORESIZE))
+		<< itemGrowing(VERTICAL)
+		<< (pane(HORIZONTAL)
+			<< item(IDOK, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDCANCEL, NORESIZE));
+
+	UpdateLayout(layout);*/
+}
+
+
 void CDlg_AddOrg::OnBnClickedOk()
 {
 	CString OrgName = L"" , ShortName = L"", Level = L"", Leader = L"", Description = L"";
@@ -87,7 +125,7 @@ void CDlg_AddOrg::OnBnClickedOk()
 	m_OrgInfo.SetLeader(Leader);
 	m_OrgInfo.SetDescription(Description);
 
-	CUserDialogBase::OnOK();
+	CUserDialogModelBase::OnOK();
 }
 
 

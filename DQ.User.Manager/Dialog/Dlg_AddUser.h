@@ -9,7 +9,7 @@ typedef struct RoleITEMDATA
 	CString RoleID;
 }DATA, *ROLEITEMDATA;
 
-class CDlg_AddUser : public CUserDialogBase
+class CDlg_AddUser : public CUserDialogModelBase
 {
 	DECLARE_DYNAMIC(CDlg_AddUser)
 

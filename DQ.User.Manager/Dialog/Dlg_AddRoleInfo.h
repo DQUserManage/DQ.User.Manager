@@ -25,16 +25,15 @@ protected:
 private:
 	CEdit			m_eRoleName;
 	CEdit			m_eDescription;
-	CString			m_RoleName;
-	CString			m_Description;
 	CBCGPTreeCtrl	m_wndMod;
 	vector<CString>	m_pCurRola;
 	int				m_OperateType;
-	CString			m_RoleID;
+	CRoleInfo		m_RoleInfo;
 public:
+	/** 设置角色信息 */
+	void SerRoleInfo(CRoleInfo RoleInfo) { m_RoleInfo = RoleInfo; }
+	CRoleInfo GetRoleInfo() { return m_RoleInfo; }
 	void SetOperateType(int OperateType) { m_OperateType = OperateType; }
-	CString GetRoleName() { return m_RoleName; }
-	CString GetRoleDescription() { return m_Description; }
 	/** 设置当前选中角色 */
 	void		SetRola(vector<CString> pRola) { m_pCurRola = pRola; }
 	/** 获取当前选中权限 */
@@ -47,9 +46,6 @@ public:
 	void	SetChildCheck(HTREEITEM hTree, BOOL bCheck);
 	/** 设置树节点选中 */
 	void	SetTreeNodeSel(CDataTableMediator *pTable, CString sParentID, HTREEITEM hRoot);
-	/** 设置角色ID */
-	void	SerRoleID(CString RoleID) { m_RoleID = RoleID; }
-	CString GetRoleID() { return m_RoleID; }
 public:
 	virtual BOOL OnInitDialog();
 

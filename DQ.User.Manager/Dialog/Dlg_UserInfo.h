@@ -26,6 +26,8 @@ private:
 public:
 	virtual BOOL OnInitDialog();
 
+	void InitLayout();
+	void EditInfo(CBCGPGridRow* pRow);
 public:
 	/** 添加用户信息 */
 	afx_msg void OnBnClickedBtnAddUser();
@@ -33,4 +35,7 @@ public:
 	afx_msg void OnBnClickedBtnDelUser();
 	/** 修改用户信息 */
 	afx_msg void OnBnClickedBtnUpdateUser();
+	afx_msg void OnBnClickedBtnUserAllSelect();
+	afx_msg void OnBnClickedBtnRevert();
+	LRESULT OnDblClk(WPARAM wParam, LPARAM lParam);
 };

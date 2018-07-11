@@ -59,8 +59,11 @@ BOOL CDlg_AddRoleInfo::OnInitDialog()
 	{
 		this->SetWindowText(_T("修改角色信息"));
 
+		m_eRoleName.SetWindowText(m_RoleInfo.GetRoleName());
+		m_eDescription.SetWindowText(m_RoleInfo.GetRemark());
+		
 		//查询角色对应模块
-		std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetSysModeInfoUseRoleId(m_RoleID));
+		std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetSysModeInfoUseRoleId(m_RoleInfo.GetRoleID()));
 
 		if (pTab->GetRowCount() > 0)
 		{
@@ -136,8 +139,13 @@ void CDlg_AddRoleInfo::FillModeTree(HTREEITEM hParent, const CString& csParent)
 
 void CDlg_AddRoleInfo::OnBnClickedOk()
 {
-	m_eRoleName.GetWindowText(m_RoleName);
-	m_eDescription.GetWindowText(m_Description);
+	CString RoleName, Description;
+
+	m_eRoleName.GetWindowText(RoleName);
+	m_eDescription.GetWindowText(Description);
+
+	m_RoleInfo.SetRoleName(RoleName);
+	m_RoleInfo.SetRemark(Description);
 
 	HTREEITEM pRoot = m_wndMod.GetFirstVisibleItem();
 	GetSelChildNode(&m_pCurRola, pRoot);

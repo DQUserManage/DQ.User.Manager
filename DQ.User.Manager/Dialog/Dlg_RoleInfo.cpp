@@ -31,6 +31,9 @@ BEGIN_MESSAGE_MAP(CDlg_RoleInfo, CUserDialogBase)
 	ON_BN_CLICKED(IDC_BTN_ADD_ROLE, &CDlg_RoleInfo::OnBnClickedBtnAddRole)
 	ON_BN_CLICKED(IDC_BTN_DEL_ROLE, &CDlg_RoleInfo::OnBnClickedBtnDelRole)
 	ON_BN_CLICKED(IDC_BTN_UPDATE_ROLE_INFO, &CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo)
+	ON_BN_CLICKED(IDC_BTN_ROLE_ALL_SELECT, &CDlg_RoleInfo::OnBnClickedBtnRoleAllSelect)
+	ON_BN_CLICKED(IDC_BTN_ROLE_REVERT, &CDlg_RoleInfo::OnBnClickedBtnRoleRevert)
+	ON_REGISTERED_MESSAGE(BCGM_GRID_ITEM_DBLCLICK, OnDblClk)
 END_MESSAGE_MAP()
 
 
@@ -73,12 +76,36 @@ BOOL CDlg_RoleInfo::OnInitDialog()
 		pRow->GetItem(2)->SetValue((_variant_t)pTab->GetStringField(i, L"ROLE_NAME"));
 		pRow->GetItem(3)->SetValue((_variant_t)pTab->GetStringField(i, L"DESCRIPTION"));
 
+		for (int j = 1; j <= 3; j++)
+		{
+			pRow->GetItem(j)->AllowEdit(FALSE);
+			pRow->GetItem(j)->SetReadOnly(TRUE);
+		}
+
 		m_GridCtrl.AddRow(pRow, FALSE);
 	}
 
 	m_GridCtrl.AdjustLayout();
 
+	InitLayout();
+
 	return TRUE;
+}
+
+
+void CDlg_RoleInfo::InitLayout()
+{
+	CPane layout = pane(VERTICAL)
+		<< item(&m_GridCtrl)
+		<< (pane(HORIZONTAL)
+			<< item(IDC_BTN_ROLE_ALL_SELECT, NORESIZE)
+			<< item(IDC_BTN_ROLE_REVERT, NORESIZE)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_BTN_ADD_ROLE, NORESIZE)
+			<< item(IDC_BTN_DEL_ROLE, NORESIZE)
+			<< item(IDC_BTN_UPDATE_ROLE_INFO, NORESIZE));
+			
+	UpdateLayout(layout);
 }
 
 
@@ -90,12 +117,8 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 	{
 		vector<CString> RolePower = dlg.GetRolePower();
 		CString RoleID = CUserUtility::GenerateUniqueStr(10);
-		CString RoleName = dlg.GetRoleName();
-		CString Description = dlg.GetRoleDescription();
-		CRoleInfo RoleInfo;
-		RoleInfo.SetRoleName(RoleName);
-		RoleInfo.SetRoleID(RoleID);
-		RoleInfo.SetRemark(Description);
+
+		CRoleInfo RoleInfo = dlg.GetRoleInfo();
 
 		//添加角色表数据
 		BOOL Result = CUserManagerDataService::GetInstance()->InsertRoleInfo(RoleInfo);
@@ -118,6 +141,12 @@ void CDlg_RoleInfo::OnBnClickedBtnAddRole()
 			pRow->GetItem(1)->SetValue((_variant_t)RoleInfo.GetRoleID());
 			pRow->GetItem(2)->SetValue((_variant_t)RoleInfo.GetRoleName());
 			pRow->GetItem(3)->SetValue((_variant_t)RoleInfo.GetRemark());
+
+			for (int j = 1; j <= 3; j++)
+			{
+				pRow->GetItem(j)->AllowEdit(FALSE);
+				pRow->GetItem(j)->SetReadOnly(TRUE);
+			}
 
 			m_GridCtrl.AddRow(pRow, FALSE);
 			m_GridCtrl.AdjustLayout();
@@ -159,7 +188,6 @@ void CDlg_RoleInfo::OnBnClickedBtnDelRole()
 void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
 {
 	CBCGPGridRow* pRow = NULL;
-	CString RoleID = L"";
 	CBCGPGridRow* pCurSelRow = m_GridCtrl.GetCurSel();
 	if (pCurSelRow == NULL)
 	{
@@ -172,7 +200,6 @@ void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
 			pCurSelRow = m_GridCtrl.GetRow(i);
 			if (((CBCGPGridCheckItem*)pCurSelRow->GetItem(0))->GetState() == 1)
 			{
-				RoleID = m_GridCtrl.GetRow(i)->GetItem(1)->GetValue();
 				pRow = m_GridCtrl.GetRow(i);
 				break;
 			}
@@ -185,21 +212,67 @@ void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
 		return;
 	}
 
+	EditInfo(pRow);
+}
+
+
+void CDlg_RoleInfo::OnBnClickedBtnRoleAllSelect()
+{
+	for (int i = 0; i < m_GridCtrl.GetRowCount(); i++)
+	{
+		CBCGPGridRow* pRow = m_GridCtrl.GetRow(i);
+		((CBCGPGridCheckItem*)(pRow->GetItem(0)))->SetValue(true);
+	}
+}
+
+
+void CDlg_RoleInfo::OnBnClickedBtnRoleRevert()
+{
+	for (int i = 0; i < m_GridCtrl.GetRowCount(); i++)
+	{
+		CBCGPGridRow* pRow = m_GridCtrl.GetRow(i);
+
+		bool bVal = ((CBCGPGridCheckItem*)(pRow->GetItem(0)))->GetValue();
+		((CBCGPGridCheckItem*)(pRow->GetItem(0)))->SetValue(!bVal);
+	}
+}
+
+
+LRESULT CDlg_RoleInfo::OnDblClk(WPARAM wParam, LPARAM lParam)
+{
+	CBCGPGridItem* pItem = (CBCGPGridItem*)(lParam);
+
+	if (!pItem)
+		return 0L;
+
+	CBCGPGridRow* pRow = pItem->GetParentRow();
+	EditInfo(pRow);
+
+	return 1L;
+}
+
+
+void CDlg_RoleInfo::EditInfo(CBCGPGridRow* pRow)
+{
 	CDlg_AddRoleInfo dlg;
 	dlg.SetOperateType(1);
+
+	CString RoleID = L"";
+	RoleID = pRow->GetItem(1)->GetValue();
 	std::shared_ptr<CDataTableMediator> pTab(CUserManagerDataService::GetInstance()->GetRoleInfoUseID(RoleID));
-	dlg.SerRoleID(pTab->GetStringField(0, L"ROLE_ID"));
+
+	CRoleInfo RoleInfo;
+	RoleInfo.SetRoleID(pTab->GetStringField(0, L"ROLE_ID"));
+	RoleInfo.SetRoleName(pTab->GetStringField(0, L"ROLE_NAME"));
+	RoleInfo.SetRemark(pTab->GetStringField(0, L"DESCRIPTION"));
+
+	dlg.SerRoleInfo(RoleInfo);
 	if (dlg.DoModal() == IDOK)
 	{
 		//更新数据
 		vector<CString> RolePower = dlg.GetRolePower();
-		CString RoleID = dlg.GetRoleID();
-		CString RoleName = dlg.GetRoleName();
-		CString Description = dlg.GetRoleDescription();
-		CRoleInfo RoleInfo;
-		RoleInfo.SetRoleName(RoleName);
-		RoleInfo.SetRoleID(RoleID);
-		RoleInfo.SetRemark(Description);
+
+		RoleInfo = dlg.GetRoleInfo();
 
 		//更新角色信息
 		BOOL Result = CUserManagerDataService::GetInstance()->UpdateRoleInfo(RoleInfo);
@@ -229,3 +302,5 @@ void CDlg_RoleInfo::OnBnClickedBtnUpdateRoleInfo()
 
 	}
 }
+
+

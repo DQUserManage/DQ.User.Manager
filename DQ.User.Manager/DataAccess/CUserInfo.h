@@ -20,6 +20,9 @@ private:
 	CString m_UserID;
 
 	///< 部门ID
+	CString m_OrgName;
+
+	///< 部门ID
 	CString m_OrgID;
 
 	///< 用户名称
@@ -58,10 +61,15 @@ public:
 	/** 获取用户ID */
 	CString GetUserID() { return m_UserID; }
 
-	/** 设置用户ID */
+	/** 设置部门ID */
 	void SetOrgID(CString OrgID) { m_OrgID = OrgID; }
-	/** 获取用户ID */
+	/** 获取部门ID */
 	CString GetOrgID() { return m_OrgID; }
+
+	/** 设置部门ID */
+	void SetOrgName(CString OrgName) { m_OrgName = OrgName; }
+	/** 获取用户ID */
+	CString GetOrgName() { return m_OrgName; }
 
 	/** 设置用户ID */
 	void SetUserName(CString UserName) { m_UserName = UserName; }

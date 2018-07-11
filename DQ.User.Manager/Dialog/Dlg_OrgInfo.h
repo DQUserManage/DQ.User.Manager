@@ -23,7 +23,7 @@ protected:
 
 public:
 	virtual BOOL OnInitDialog();
-
+	void InitLayout();
 private:
 	HTREEITEM						m_hItem;					///<树节点 点击
 	CTreeCtrl						m_tOrgTree;					///<部门 树控件
