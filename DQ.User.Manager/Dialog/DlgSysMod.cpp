@@ -193,6 +193,8 @@ void CDlgSysMod::OnEdt()
 	if (dlg.DoModal() != IDOK)
 		return;
 
+	m_wndMod.SetItemText(hItem, mod.m_csName);
+
 	m_Ids[hItem] = mod;
 }
 
